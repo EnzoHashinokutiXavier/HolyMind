@@ -1,3 +1,10 @@
+
+
+// Código para interagir com a API e mostrar a resposta da IA na tela
+
+
+
+
 async function sendRequest(type) { // Função para requisitar a resposta da IA, mandando a entrada do usuario para a API
     const entrada = document.getElementById('entrada').value.trim(); 
     const respostaIA = document.getElementById('resposta');
@@ -31,56 +38,62 @@ async function sendRequest(type) { // Função para requisitar a resposta da IA,
 }
 
 
+
+// Código para popular os selects de livros, capítulos e versículos da bíblia
+
+
+
+
 let versiculos = [];
 let versiculosDoCapitulo = [];
 
-fetch('/static/bibles/biblia.json')
-  .then(res => res.json())
-  .then(data => {
-    versiculos = data;
-    popularLivros();
+fetch('/static/bibles/biblia.json') // busca o arquivo JSON no servidor
+  .then(res => res.json()) // converte a resposta em JSON
+  .then(data => { // armazena os dados na variável global
+    versiculos = data; // array de versículos
+    popularLivros(); // chama a função para popular os livros no select
   })
     .catch(err => console.error("Erro no fetch:", err));
 
-function popularLivros() {
-  const livroSelect = document.getElementById('livro-select');
+function popularLivros() { // popula o select de livros
+  const livroSelect = document.getElementById('livro-select'); // pega o select do HTML
 
   // gera lista única de livros usando livro_id como valor e livro como label
-  const livros = [...new Map(versiculos.map(v => [v.livro_id, v.livro])).entries()];
+  const livros = [...new Map(versiculos.map(v => [v.livro_id, v.livro])).entries()]; // array de arrays [id, nome]
 
   livroSelect.innerHTML = `<option value="" disabled selected>Selecione o Livro</option>`;
-  livros.forEach(([id, nome]) => {
-    const opt = document.createElement('option');
-    opt.value = id;          // usar id único
-    opt.textContent = nome;  // mostrar nome
-    livroSelect.appendChild(opt);
+  livros.forEach(([id, nome]) => { // para cada livro, cria uma opção no select
+    const opt = document.createElement('option'); // cria o elemento option
+    opt.value = id;          // usar id único para o value
+    opt.textContent = nome;  // mostrar nome do livro
+    livroSelect.appendChild(opt); // adiciona a opção ao select
   });
 
-  livroSelect.addEventListener('change', () => {
-    const livroId = livroSelect.value;
-    const capituloSelect = document.getElementById('capitulo-select');
+  livroSelect.addEventListener('change', () => { // quando o livro mudar
+    const livroId = livroSelect.value; // pega o id do livro selecionado
+    const capituloSelect = document.getElementById('capitulo-select'); // pega o select de capítulos
 
     // pega todos os capítulos desse livro
     const capitulos = [...new Set(
-      versiculos.filter(v => v.livro_id === livroId).map(v => String(v.capitulo))
+      versiculos.filter(v => v.livro_id === livroId).map(v => String(v.capitulo)) // array único de capítulos
     )];
 
-    capituloSelect.innerHTML = `<option value="" disabled selected>Capítulo</option>`;
-    capitulos.forEach(cap => {
-      const opt = document.createElement('option');
+    capituloSelect.innerHTML = `<option value="" disabled selected>Capítulo</option>`; 
+    capitulos.forEach(cap => { // para cada capítulo, cria uma opção no select
+      const opt = document.createElement('option'); // cria o elemento option
       opt.value = cap;
       opt.textContent = cap;
       capituloSelect.appendChild(opt);
     });
 
-    capituloSelect.onchange = () => {
-      const cap = capituloSelect.value;
-      const versiculoSelect = document.getElementById('versiculo-select');
+    capituloSelect.onchange = () => { // quando o capítulo mudar
+      const cap = capituloSelect.value; // pega o capítulo selecionado
+      const versiculoSelect = document.getElementById('versiculo-select'); // pega o select de versículos
 
       // pega todos os versículos do capítulo
       const vers = versiculos
-        .filter(v => v.livro_id === livroId && String(v.capitulo) === String(cap))
-        .map(v => String(v.versiculo));
+        .filter(v => v.livro_id === livroId && String(v.capitulo) === String(cap)) // filtra por livro e capítulo
+        .map(v => String(v.versiculo)); // array de versículos
 
       versiculoSelect.innerHTML = `<option value="" disabled selected>Versículo</option>`;
       vers.forEach(v => {
@@ -93,46 +106,46 @@ function popularLivros() {
   });
 }
 
-function buscarVersiculo() {
+function buscarVersiculo() { // busca o versículo selecionado e mostra no HTML
   const livroId = document.getElementById('livro-select').value;
   const cap = document.getElementById('capitulo-select').value;
   const vers = document.getElementById('versiculo-select').value;
 
-  const resultado = versiculos.find(v =>
-    v.livro_id === livroId &&
-    String(v.capitulo) === String(cap) &&
-    String(v.versiculo) === String(vers)
+  const resultado = versiculos.find(v => // encontra o versículo exato
+    v.livro_id === livroId && // filtra por livro
+    String(v.capitulo) === String(cap) && // filtra por capítulo
+    String(v.versiculo) === String(vers) // filtra por versículo
   );
 
-  document.getElementById('referencia').textContent = `${resultado.livro} ${cap}:${vers}`;
-  document.getElementById('texto').textContent = resultado?.texto || 'Não encontrado';
+  document.getElementById('referencia').textContent = `${resultado.livro} ${cap}:${vers}`; // mostra a referência
+  document.getElementById('texto').textContent = resultado?.texto || 'Não encontrado'; // mostra o texto do versículo
 
   // Guarda todos os versículos do capítulo (pra "mostrar mais")
   versiculosDoCapitulo = versiculos.filter(v =>
-    v.livro_id === livroId && String(v.capitulo) === String(cap)
+    v.livro_id === livroId && String(v.capitulo) === String(cap) // filtra por livro e capítulo
   );
 
-  document.getElementById('mais-btn').style.display = 'inline-block';
-  document.getElementById('mais-versiculos').innerHTML = '';
+  document.getElementById('mais-btn').style.display = 'inline-block'; // mostra o botão "mostrar mais"
+  document.getElementById('mais-versiculos').innerHTML = ''; // limpa a área de mais versículos
 }
 
-function mostrarMais() {
+function mostrarMais() { // mostra mais versículos a partir do selecionado
   const versSelecionado = document.getElementById('versiculo-select').value;
   const container = document.getElementById('mais-versiculos');
   container.innerHTML = '';
 
-  let iniciou = false;
-  versiculosDoCapitulo.forEach(v => {
-    if (String(v.versiculo) === String(versSelecionado)) iniciou = true;
-    if (iniciou) {
-      const p = document.createElement('p');
-      p.textContent = `${v.capitulo}:${v.versiculo} — ${v.texto}`;
-      container.appendChild(p);
+  let iniciou = false; // flag para começar a mostrar versículos
+  versiculosDoCapitulo.forEach(v => { // percorre os versículos do capítulo
+    if (String(v.versiculo) === String(versSelecionado)) iniciou = true; // começa a mostrar a partir do versículo selecionado
+    if (iniciou) { // se já iniciou, mostra o versículo
+      const p = document.createElement('p'); 
+      p.textContent = `${v.capitulo}:${v.versiculo} — ${v.texto}`; // formata o texto
+      container.appendChild(p); // adiciona ao container
     }
   });
 
-  container.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+  container.scrollIntoView({ // rola a página até os versículos mostrados
+    behavior: "smooth", // animação suave
+    block: "start" // alinha ao topo
   });
 }

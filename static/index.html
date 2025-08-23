@@ -14,12 +14,13 @@
     <body>
         <div class="container">
             <div class="inputbox">
-                <h1>PapoBiblico</h1>
-                <p>Faça perguntas ou peça explicações de trecho da biblia</p>
+                <h1>PapoBíblicoIA</h1>
+                <p>Faça perguntas ou peça explicações de trecho da biblia para IA</p>
                 <textarea id="entrada" placeholder="Pergunte algo como: 'Explique a parábola do filho pródigo'"></textarea>
                 <div class="button">
                     <button onclick="sendRequest('general-explanation')">Prompt Geral</button>
-                    <button onclick="sendRequest('practical-explanation')">Prompt Aprofundado Pratico</button>
+                    <button onclick="sendRequest('practical-explanation')">Aprofundado Pratico</button>
+                    <button onclick="sendRequest('interpretations-explanation')">Interpretação Variada</button>
                 </div>
                 <div id="resposta"></div>
             </div>

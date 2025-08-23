@@ -21,18 +21,18 @@ class TextRequest(BaseModel):
     text: str
 
 # Define um POST endpoint em /aichat
-@app.post("/aichat")
-async def ai_chat(req: TextRequest):
+@app.post("/general-explanation")
+async def general_explanation(req: TextRequest):
     try:
         # Chama a API da OpenAI para responder a conversa
         response = client.chat.completions.create(
             model = "gpt-4o-mini", # Modelo do chat
             messages=[
                 # Define padrão de comportamento do sistema
-                {"role": "system", "content": "You are an assistant that helps the understanding of biblical passages"},
+                {"role": "system", "content": "You are a theologian with a large biblical understanding who answers clearly, in a simple way, passages and books of the Bible"},
 
                 # Define o pedido do usuario
-                {"role": "user", "content" : f"If I ask a question, answer me, if I type a passage, explain it : {req.text}"}
+                {"role": "user", "content" : f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
         # Retorna a explicação do assistente em JSON
@@ -42,32 +42,34 @@ async def ai_chat(req: TextRequest):
         raise HTTPException(status_code=500, detail=str(e))
     
     #Endpoint para uso futuro
-@app.post("/rotavazia")
-async def rota_vazia(req: TextRequest):
+@app.post("/practical-explanation")
+async def practical_explanation(req: TextRequest):
     try:
         response = client.chat.completions.create(
             model = "gpt-4o-mini",
             messages=[
-                {"role": "system", "content": ""},
+                {"role": "system", "content": "You are a theologian with a deep biblical understanding. Your explanations reflect what message God wanted to convey in a passage or book, showing how to apply the teachings in everyday life."},
 
-                {"role": "user", "content": ""}
+                {"role": "user", "content": f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
+        return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
     #Endpoint para uso futuro
-@app.post("/vazio")
-async def vazio(req: TextRequest):
+@app.post("/interpretations-explanation")
+async def interpretations_explanation(req: TextRequest):
     try:
         response = client.chat.completions.create(
             model = "gpt-4o-mini",
             messages=[
-                {"role": "system", "content": ""},
+                {"role": "system", "content": "You are a theologian with extensive religious knowledge, who explains biblical passages showing their interpretations according to each Christian religion."},
 
-                {"role": "user", "content": ""}
+                {"role": "user", "content": f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
+        return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

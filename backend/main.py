@@ -42,10 +42,11 @@ async def ai_chat(req: TextRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 # Monta os arquivos da pasta 'static' 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="../static"), name="static")
+
 
 # Define um GET endpoint na rota de url /
 @app.get("/")
 async def root():
     # Retorna o arquivo html
-    return FileResponse("static/index.html")
+    return FileResponse("../static/index.html")

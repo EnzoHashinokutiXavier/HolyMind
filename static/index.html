@@ -13,13 +13,38 @@
     </head>
     <body>
         <div class="container">
-        <h1>PapoBiblico</h1>
-        <p>Faça perguntas ou peça explicações de trecho da biblia</p>
-        <textarea id="entrada" placeholder="Pergunte algo como: 'Explique a parábola do filho pródigo'"></textarea>
-        <div class="button">
-            <button onclick="sendRequest('aichat')">Enviar</button>
+            <div class="inputbox">
+                <h1>PapoBiblico</h1>
+                <p>Faça perguntas ou peça explicações de trecho da biblia</p>
+                <textarea id="entrada" placeholder="Pergunte algo como: 'Explique a parábola do filho pródigo'"></textarea>
+                <div class="button">
+                    <button onclick="sendRequest('aichat')">Enviar</button>
+                </div>
+                <div id="resposta"></div>
+            </div>
+        
+            <div class="pesquisaLivro">
+                <h2>Pesquisar por livro, capítulo e versículo</h2>
+                <select class="input" id="livro-select">
+                    <option value="" disabled selected>Livro</option>
+                </select>
+                <select class="input" id="capitulo-select">
+                    <option value="" disabled selected>Capitulo</option>
+                </select>
+                <select class="input" id="versiculo-select">
+                    <option value="" disabled selected>Versiculo</option>
+                </select>
+                
+                <div class="button">
+                    <button onclick="sendRequest('bible')">Pesquisar</button>
+                </div>
+                <div id="resultado">
+                    <h2 id="referencia"></h2>
+                    <p id="texto"></p>
+                    <button id="mais-btn" style="display:none" onclick="mostrarMais()">Ver mais versículos</button>
+                    <div id="mais-versiculos" class="fade-in"></div>
+                </div>
+            </div>
         </div>
-        <div id="resposta"></div>
-    </div>
     </body>
 </html>

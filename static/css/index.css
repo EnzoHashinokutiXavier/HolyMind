@@ -5,13 +5,27 @@ body {
     padding: 0;
 }
 .container {
-    max-width: 500px;
-    margin: 40px auto;
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    margin: 40px;
+}
+
+.inputbox, .pesquisaLivro {
+    max-width: 1000px;
     background: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     padding: 32px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    flex: 1;
+    min-width: 300px;
 }
+
+
+
 h1 {
     text-align: center;
     color: #2d3436;
@@ -60,4 +74,27 @@ button:hover {
     min-height: 40px;
     color: #2d3436;
     white-space: pre-line;
+}
+
+.buttonPesquisar {
+    flex: 1;
+    padding: 10px;
+    background: #625fc2;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.input {
+    width: 30%;
+    height: 40px;
+    margin: 16px 8px 16px 0;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #b2bec3;
+    font-size: 15px;
+    box-sizing: border-box;
 }

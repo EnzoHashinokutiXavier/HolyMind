@@ -9,7 +9,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <script src="/static/js/index.js"></script>
+        
     </head>
     <body>
         <div class="container">
@@ -25,18 +25,14 @@
         
             <div class="pesquisaLivro">
                 <h2>Pesquisar por livro, capítulo e versículo</h2>
-                <select class="input" id="livro-select">
-                    <option value="" disabled selected>Livro</option>
-                </select>
-                <select class="input" id="capitulo-select">
-                    <option value="" disabled selected>Capitulo</option>
-                </select>
-                <select class="input" id="versiculo-select">
-                    <option value="" disabled selected>Versiculo</option>
-                </select>
+
+                <select class="input" id="livro-select"></select>
+                <select class="input" id="capitulo-select"></select>
+                <select class="input" id="versiculo-select"></select>
+                
                 
                 <div class="button">
-                    <button onclick="sendRequest('bible')">Pesquisar</button>
+                    <button id="botao-select" onclick="buscarVersiculo()">Pesquisar</button>
                 </div>
                 <div id="resultado">
                     <h2 id="referencia"></h2>
@@ -46,5 +42,6 @@
                 </div>
             </div>
         </div>
+        <script src="/static/js/index.js"></script>
     </body>
 </html>

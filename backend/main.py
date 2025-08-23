@@ -40,6 +40,37 @@ async def ai_chat(req: TextRequest):
     except Exception as e:
         # Se algo der errado, retorna um erro HTTP 500 com os detalhes
         raise HTTPException(status_code=500, detail=str(e))
+    
+    #Endpoint para uso futuro
+@app.post("/rotavazia")
+async def rota_vazia(req: TextRequest):
+    try:
+        response = client.chat.completions.create(
+            model = "gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": ""},
+
+                {"role": "user", "content": ""}
+            ]
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    #Endpoint para uso futuro
+@app.post("/vazio")
+async def vazio(req: TextRequest):
+    try:
+        response = client.chat.completions.create(
+            model = "gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": ""},
+
+                {"role": "user", "content": ""}
+            ]
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # Monta os arquivos da pasta 'static' 
 app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "..", "static")), name="static")

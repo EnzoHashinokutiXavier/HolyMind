@@ -89,7 +89,7 @@ async def hitory_view():
             response += f"Question : {row['question']}\n"
             response += f"Type : {row['type']}\n"
             response += f"Answer : {row['answer']}\n"
-            response += '-' * 40 + "\n"
+            response += '-' * 60 + "\n"
         return response
 
 

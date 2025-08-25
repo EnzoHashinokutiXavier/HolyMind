@@ -12,26 +12,28 @@
         
     </head>
     <body>
-
-
         <div class="sidebar">
-            <h1>PDF's</h1>
-            <div id="close-btn">
-                <img src="/static/img/close.png" alt="Fechar Sidebar">
-                <button onclick="toggleSidebar()"></button>
+            <div class="sidebar-header">
+                <h2>PDF's</h2>
+                <a>
+                    <button class="close-btn" onclick="toggleSidebar()"></button>
+                </a>
             </div>
-            
-            <div>
-
+            <div class="card1">
+                <a href="/static/bibles/Biblia-Sagrada-RA-Almeida-Rev-Sociedade-Biblica-do-Brasil.pdf" target="_blank">
+                    <img src="/static/img/biblia.png" alt="imagemBiblia" class="btn-img">
+                </a>
+                <p>Versão Almeida</p>
             </div>
-            <a href="/static/pdf/AntigoTestamento.pdf" target="_blank">Antigo Testamento</a>
-            <a href="/static/pdf/NovoTestamento.pdf" target="_blank">Novo Testamento</a>
-            <a href="/static/pdf/BibliaCompleta.pdf" target="_blank">Bíblia Completa</a>  
+            <div class="card2">
+                <a href="/static/bibles/Portugues-Catolica-AVM-All-Bible.pdf" target="_blank">
+                    <img src="/static/img/biblia.png" alt="imagemBiblia" class="btn-img">
+                </a>
+                <p>Versão Catolica</p>
+            </div>
         </div>
 
-        <button id="toggle-btn" onclick="toggleSidebar()"></button>
-        
-
+        <button class="openbtn" id="toggle-btn" onclick="toggleSidebar()"></button>
 
         <div class="container">
             <div class="inputbox">

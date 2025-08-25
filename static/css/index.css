@@ -11,7 +11,8 @@ body {
     align-items: flex-start;
     margin-top: 40px;
     flex-wrap: wrap;
-    margin: 40px;
+    margin-left: 100px;
+    width: 90%;
 }
 
 .inputbox, .pesquisaLivro {
@@ -98,3 +99,100 @@ button:hover {
     font-size: 15px;
     box-sizing: border-box;
 }
+
+h2 {
+    color:#2d3436
+}
+
+
+/* sidebar styles */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 15%;
+    height: 100%;
+    background: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+
+}
+
+.card1, .card2 {
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+
+.btn-img {
+    width: 100px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 15px;
+}
+
+.btn-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 20px;
+    background: #ffffff;
+    color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+#toggle-btn {
+  position: fixed;
+  top: 50%;
+  left: 0px;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  background: url('/static/img/buttonOpen.png') no-repeat center;
+  background-size: contain;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.openbtn.open {
+    display: none;
+}
+
+
+.close-btn {
+    background: url('/static/img/close.png') no-repeat center;
+    background-size: contain;
+    border: none;   
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    color:#2d3436
+}
+
+.close-btn:hover {
+    background: url('/static/img/close.png') no-repeat center;
+    background-size: contain;
+    border-color: #fff;   
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    color:#f9f9f9
+}
+

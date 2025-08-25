@@ -149,3 +149,18 @@ function mostrarMais() { // mostra mais versículos a partir do selecionado
     block: "start" // alinha ao topo
   });
 }
+
+// Código para abrir e fechar a sidebar de PDF
+
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const togglebtn = document.querySelector('.openbtn'); // agora pega pela classe
+
+  sidebar.classList.toggle('open');
+
+  if (sidebar.classList.contains('open')) {
+    togglebtn.classList.add('open');   // some o botão
+  } else {
+    togglebtn.classList.remove('open'); // aparece de novo
+  }
+}

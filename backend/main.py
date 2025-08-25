@@ -38,7 +38,7 @@ async def general_explanation(req: TextRequest):
                 {"role": "user", "content" : f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
-        register(req.text, response.choices[0].message.content)
+        register(req.text, "general_explanation", response.choices[0].message.content)
         # Retorna a explicação do assistente em JSON
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
@@ -57,7 +57,7 @@ async def practical_explanation(req: TextRequest):
                 {"role": "user", "content": f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
-        register(req.text, response.choices[0].message.content)
+        register(req.text, "pratical_explanation", response.choices[0].message.content)
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -74,7 +74,7 @@ async def interpretations_explanation(req: TextRequest):
                 {"role": "user", "content": f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
-        register(req.text, response.choices[0].message.content)
+        register(req.text, "interpretations_explanation", response.choices[0].message.content)
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -87,6 +87,7 @@ async def hitory_view():
         reader = DictReader(historyfile)
         for row in reader:
             response += f"Question : {row['question']}\n"
+            response += f"Type : {row['type']}\n"
             response += f"Answer : {row['answer']}\n"
             response += '-' * 40 + "\n"
         return response
@@ -103,12 +104,12 @@ async def root():
     return FileResponse(os.path.join(os.path.dirname(__file__), "..", "static", "index.html"))
 
 
-def register(question, answer):
+def register(question, type, answer):
     if not question:
         print("Pergunta vazia, registro ignorado.")
         return
     with open("backend\\history.csv", mode='a', encoding='utf-8', newline='') as arquivo:  
-        escrever = DictWriter(arquivo, fieldnames=["question", "answer"])
+        escrever = DictWriter(arquivo, fieldnames=["question", "type", "answer"])
         if arquivo.tell() == 0:
             escrever.writeheader()
-        escrever.writerow({"question": question, "answer": answer})
+        escrever.writerow({"question": question, "type": type, "answer": answer})

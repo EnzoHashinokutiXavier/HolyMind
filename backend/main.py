@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles 
 from fastapi.responses import FileResponse   
 from pydantic import BaseModel
+from csv import DictReader, DictWriter
 import os
 from openai import OpenAI
 
@@ -20,6 +21,8 @@ app = FastAPI()
 class TextRequest(BaseModel):
     text: str
 
+
+
 # Define um POST endpoint em /aichat
 @app.post("/general-explanation")
 async def general_explanation(req: TextRequest):
@@ -35,6 +38,7 @@ async def general_explanation(req: TextRequest):
                 {"role": "user", "content" : f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
+        register(req.text, response.choices[0].message.content)
         # Retorna a explicação do assistente em JSON
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
@@ -83,3 +87,11 @@ app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__
 async def root():
     # Retorna o arquivo html
     return FileResponse(os.path.join(os.path.dirname(__file__), "..", "static", "index.html"))
+
+
+def register(question, answer):
+    with open ("backend\historic.csv", mode='a', encoding='utf-8', newline='') as arquivo :  
+        escrever = DictWriter(arquivo, fieldnames=["question", "answer"])
+        if arquivo.tell() == 0:
+            escrever.writeheader()
+        escrever.writerow({"question": question, "answer": answer})

@@ -57,6 +57,7 @@ async def practical_explanation(req: TextRequest):
                 {"role": "user", "content": f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
+        register(req.text, response.choices[0].message.content)
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -73,9 +74,22 @@ async def interpretations_explanation(req: TextRequest):
                 {"role": "user", "content": f"Explain to me the following passage from the Bible: {req.text} If I said something that is not part of the Bible, do not respond to what I said and let me know."}
             ]
         )
+        register(req.text, response.choices[0].message.content)
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/history-view")
+async def hitory_view():
+    response = ''
+    with open("history.csv", newline='', encoding='utf-8') as historyfile:
+        reader = DictReader(historyfile)
+        for row in reader:
+            response += f"Question : {row['question']}\n"
+            response += f"Answer : {row['answer']}\n"
+            response += '-' * 40 + "\n"
+        return response
 
 
 # Monta os arquivos da pasta 'static' 
@@ -90,7 +104,10 @@ async def root():
 
 
 def register(question, answer):
-    with open ("backend\historic.csv", mode='a', encoding='utf-8', newline='') as arquivo :  
+    if not question:
+        print("Pergunta vazia, registro ignorado.")
+        return
+    with open("backend\\history.csv", mode='a', encoding='utf-8', newline='') as arquivo:  
         escrever = DictWriter(arquivo, fieldnames=["question", "answer"])
         if arquivo.tell() == 0:
             escrever.writeheader()

@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse   
 from pydantic import BaseModel
 from csv import DictReader
-from functions import load_prompts, register
+from .functions import load_prompts, register
 import os
 from openai import OpenAI
 
@@ -69,6 +69,7 @@ async def practical_explanation(req: TextRequest):
 @app.post("/interpretations-explanation")
 async def interpretations_explanation(req: TextRequest):
     try:
+        data = load_prompts(3)
         response = client.chat.completions.create(
             model = "gpt-4o-mini",
             messages=[

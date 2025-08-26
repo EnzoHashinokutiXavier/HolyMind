@@ -1,5 +1,5 @@
+import json
 from csv import DictWriter
-  
 
 def register(question, type, answer):
     if not question:
@@ -14,14 +14,18 @@ def register(question, type, answer):
 
 def load_prompts(type):
     data = ''
-    with open("prompts.json", "r") as file:
-        data += file['identity']
-        data += file['limitations']
-        data += file['explanations']
+    with open("backend\\prompts.json", "r", encoding='utf-8') as file:
+        prompts = json.load(file)  # <-- Aqui está a correção
+
+        data += f"{prompts['identity']}\n"
+        data += f"{prompts['limitations']}\n"
+        data += f"{prompts['explanation']}\n"
+
         if type == 1:
-            data += file['general']
+            data += f"{prompts['general']}\n"
         elif type == 2:
-            data += file['practical']
+            data += f"{prompts['practical']}\n"
         elif type == 3:
-            data += file["interpretation"]
+            data += f"{prompts['interpretation']}\n"
+
         return data

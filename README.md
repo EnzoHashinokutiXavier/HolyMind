@@ -15,7 +15,7 @@ uvicorn backend.main:app --reload
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/ScripturaAI.git
+   git clone https://github.com/EnzoHashinokutiXavier/HolyMind.git
    cd ScripturaAI
    ```
 

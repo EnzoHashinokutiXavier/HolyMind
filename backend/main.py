@@ -85,16 +85,17 @@ async def interpretations_explanation(req: TextRequest):
 
 
 @app.get("/history-view")
-async def hitory_view():
-    response = ''
-    with open("history.csv", newline='', encoding='utf-8') as historyfile:
+async def history_view():
+    rows = []
+    with open("./backend/history.csv", newline='', encoding='utf-8') as historyfile:
         reader = DictReader(historyfile)
         for row in reader:
-            response += f"Question : {row['question']}\n"
-            response += f"Type : {row['type']}\n"
-            response += f"Answer : {row['answer']}\n"
-            response += '-' * 60 + "\n"
-        return JSONResponse(content={"history": response})
+            rows.append({
+                "question": row["question"],
+                "type": row["type"],
+                "answer": row["answer"]
+            })
+    return JSONResponse(content={"history": rows})
 
 
 # Monta os arquivos da pasta 'static' 

@@ -28,6 +28,10 @@ def check_history():
     ''')
     cursor.execute("SELECT * FROM history")
     rows = cursor.fetchall()
+    column = [description[0] for description in cursor.description]
+    history = [dict(zip(column, row)) for row in rows]
+    conn.close()
+    return json.dumps(history, indent=4, ensure_ascii=False)
 
 
 def load_prompts(type):

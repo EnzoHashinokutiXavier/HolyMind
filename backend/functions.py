@@ -2,7 +2,7 @@ import json
 import sqlite3
 
 def register(question, type, answer):
-    conn = sqlite3.connect('history.db')
+    conn = sqlite3.connect('backend/history.db')
     cursor = conn.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS history (
@@ -17,7 +17,7 @@ def register(question, type, answer):
 
 
 def check_history():
-    conn = sqlite3.connect('history.db')
+    conn = sqlite3.connect('backend/history.db')
     cursor = conn.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS history (

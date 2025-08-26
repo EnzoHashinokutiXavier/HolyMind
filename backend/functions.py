@@ -1,15 +1,33 @@
 import json
-from csv import DictWriter
+import sqlite3
 
 def register(question, type, answer):
-    if not question:
-        print("Pergunta vazia, registro ignorado.")
-        return
-    with open("backend\\history.csv", mode='a', encoding='utf-8', newline='') as file:  
-        write = DictWriter(file, fieldnames=["question", "type", "answer"])
-        if file.tell() == 0:
-            write.writeheader()
-        write.writerow({"question": question, "type": type, "answer": answer})
+    conn = sqlite3.connect('history.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS history (
+        question TEXT NOT NULL,
+        type TEXT NOT NULL,
+        answer TEXT NOT NULL
+    )
+    ''')
+    cursor.execute("INSERT INTO history (question, type, answer) VALUES (?, ?, ?)",(question, type, answer))
+    conn.commit()
+    conn.close()
+
+
+def check_history():
+    conn = sqlite3.connect('history.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS history (
+        question TEXT NOT NULL,
+        type TEXT NOT NULL,
+        answer TEXT NOT NULL
+    )
+    ''')
+    cursor.execute("SELECT * FROM history")
+    rows = cursor.fetchall()
 
 
 def load_prompts(type):

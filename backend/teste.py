@@ -1,11 +1,13 @@
-from csv import DictReader
+cursor.execute("SELECT * FROM history")
+    rows = cursor.fetchall()
 
-response = ''
-with open("history.csv", newline='', encoding='utf-8') as historyfile:
-    reader = DictReader(historyfile)
-    for row in reader:
-        response += f"Question : {row['question']}\n"
-        response += f"Type : {row['type']}\n"
-        response += f"Answer : {row['answer']}\n"
-        response += '-' * 60 + "\n"
-    print(response)
+    # Pega os nomes das colunas
+    colunas = [description[0] for description in cursor.description]
+
+    # Transforma em lista de dicionários
+    historico = [dict(zip(colunas, row)) for row in rows]
+
+    conn.close()
+
+    # Retorna como JSON (ou pode printar se preferir)
+    return json.dumps(historico, indent=4, ensure_ascii=False)

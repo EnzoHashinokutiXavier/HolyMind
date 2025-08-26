@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles 
-from fastapi.responses import FileResponse   
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 from csv import DictReader
 from .functions import load_prompts, register
@@ -94,7 +94,7 @@ async def hitory_view():
             response += f"Type : {row['type']}\n"
             response += f"Answer : {row['answer']}\n"
             response += '-' * 60 + "\n"
-        return {f"{response}"}
+        return JSONResponse(content={"history": response})
 
 
 # Monta os arquivos da pasta 'static' 

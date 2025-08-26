@@ -12,6 +12,19 @@
         
     </head>
     <body>
+        <div class="history-overlay">
+            <div class="history-content">
+                <div class="history-header">
+                    <h2>Histórico de Perguntas</h2>
+                    <a>
+                        <button class="close-btn" onclick="toggleHistory()"></button>
+                    </a>
+                </div>
+                <div class="history-body" id="history-messages">
+                    <p>Mensagens antigas aqui..</p>
+                </div>
+            </div>
+        </div>
         <div class="sidebar">
             <div class="sidebar-header">
                 <h2>PDF's</h2>
@@ -37,7 +50,10 @@
 
         <div class="container">
             <div class="inputbox">
-                <h1>PapoBíblicoIA</h1>
+                <a>
+                    <button class="history-btn" onclick="toggleHistory()"></button>
+                </a>
+                <h1>HolyMind</h1>
                 <p>Faça perguntas ou peça explicações de trecho da biblia para IA</p>
                 <textarea id="entrada" placeholder="Pergunte algo como: 'Explique a parábola do filho pródigo'"></textarea>
                 <div class="button">

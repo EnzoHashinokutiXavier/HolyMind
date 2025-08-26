@@ -164,3 +164,29 @@ function toggleSidebar() {
     togglebtn.classList.remove('open'); // aparece de novo
   }
 }
+
+
+// Código para abrir e fechar o histórico de perguntas e respostas
+
+function toggleHistory() {
+  const modal = document.querySelector(".history-overlay");
+  
+  if (modal.style.display === "flex") {
+    // 🚪 FECHAR
+    modal.classList.remove("fade-in");
+    modal.classList.add("fade-out");
+
+    // só esconde depois da animação terminar
+    modal.addEventListener("animationend", () => {
+      if (modal.classList.contains("fade-out")) {
+        modal.style.display = "none";
+      }
+    }, { once: true });
+
+  } else {
+    // 🚀 ABRIR
+    modal.style.display = "flex";
+    modal.classList.remove("fade-out");
+    modal.classList.add("fade-in");
+  }
+}

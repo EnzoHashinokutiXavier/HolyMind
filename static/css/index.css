@@ -1,3 +1,23 @@
+/* Animação FadeInUp */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
 body {
     background: linear-gradient(90deg, rgba(56, 126, 255, 0.781), rgb(51, 51, 51));
     font-family: Arial, sans-serif;
@@ -23,6 +43,7 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     flex: 1;
     min-width: 300px;
+    position: relative;
 }
 
 
@@ -53,6 +74,7 @@ textarea {
     gap: 8px;
     margin-bottom: 16px;
 }
+
 button {
     flex: 1;
     padding: 10px;
@@ -64,9 +86,8 @@ button {
     cursor: pointer;
     transition: background 0.2s;
 }
-button:hover {
-    background: #3779bb;
-}
+
+
 #response {
     margin-top: 16px;
     background: #dfe6e9;
@@ -195,4 +216,57 @@ h2 {
     cursor: pointer;
     color:#f9f9f9
 }
+
+/* History Overlay Styles */
+
+.history-btn {
+    width: 40px;
+    height: 40px;
+    background: url('/static/img/history.png') no-repeat center;
+    background-size: contain;
+    border: none;
+    right: 20px;
+    position: absolute;
+    margin-right: 20px;
+}
+
+.history-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    
+}
+
+.history-content {
+    background-color: #fff;
+    margin-right: 250px;
+    margin-left: 250px;
+    padding: 20px;
+    border-radius: 20px;
+    width: 65%;
+    height: 60%;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.3s ease;
+    
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.history-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+
 

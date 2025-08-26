@@ -3,8 +3,6 @@
 // Código para interagir com a API e mostrar a resposta da IA na tela
 
 
-
-
 async function sendRequest(type) { // Função para requisitar a resposta da IA, mandando a entrada do usuario para a API
     const entrada = document.getElementById('entrada').value.trim(); 
     const respostaIA = document.getElementById('resposta');
@@ -168,6 +166,45 @@ function toggleSidebar() {
 
 // Código para abrir e fechar o histórico de perguntas e respostas
 
+async function loadHistory() {
+  try {
+    const res = await fetch('/history-view'); // busca o histórico na API
+    const data = await res.json(); // converte a resposta em JSON
+
+    const container = document.getElementById('history-messages');
+    container.innerHTML = ''; // limpa o container
+
+    data.history.forEach(item => {
+      const block = document.createElement("div");
+      block.classList.add("history-item");
+
+      const respostaHTML = marked.parse(item.answer);
+      
+      if (item.type === "general_explanation") {
+        tipoResposta = "Explicação Geral";
+      } else if (item.type === "pratical_explanation") {
+        tipoResposta = "Explicação Pratica";
+      } else if (item.type === "interpretations_explanation") {
+        tipoResposta = "Explicação com Interpretações Variadas";
+      }
+
+      block.innerHTML = `
+              <h2><strong>Pergunta:\n</strong></h2>
+              <h3>Você: ${item.question}</h3>
+              <h3><strong>Tipo:</strong> ${tipoResposta}</h3>
+              <div class="markdown-answer">${respostaHTML}</div>
+              <hr>
+            `;
+
+      container.appendChild(block);
+    })
+  } catch (err) {
+    console.error("Erro ao carregar histórico:", err);
+  }
+}
+
+
+
 function toggleHistory() {
   const modal = document.querySelector(".history-overlay");
   
@@ -188,5 +225,8 @@ function toggleHistory() {
     modal.style.display = "flex";
     modal.classList.remove("fade-out");
     modal.classList.add("fade-in");
+    loadHistory();
   }
+
+   // carrega o histórico sempre que abrir
 }

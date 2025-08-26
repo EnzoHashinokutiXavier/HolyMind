@@ -53,7 +53,6 @@ h1 {
     color: #2d3436;
 }
 p {
-    text-align: center;
     color: #636e72;
 }
 textarea {
@@ -241,7 +240,6 @@ h2 {
     justify-content: center;
     align-items: center;
     z-index: 2000;
-    
 }
 
 .history-content {
@@ -252,9 +250,13 @@ h2 {
     border-radius: 20px;
     width: 65%;
     height: 60%;
+    max-height: 80vh;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     animation: fadeInUp 0.3s ease;
-    
+
+    display: flex;              /* 🔥 faz o body ocupar espaço dentro */
+    flex-direction: column;
+    white-space: pre-line;
 }
 
 .history-header {
@@ -268,5 +270,7 @@ h2 {
     overflow-y: auto;
 }
 
-
-
+.markdown-answer p {
+    margin: 0 0 10px 0;
+    line-height: 1.6;
+}

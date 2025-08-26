@@ -1,6 +1,6 @@
 from functions import check_history, register
 
-register("pergunta3", "tipo3", "resposta3")
+register("pergunta1", "tipo1", "resposta1")
 
 json = check_history()
 print(json)

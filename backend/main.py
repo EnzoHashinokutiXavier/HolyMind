@@ -2,8 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles 
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
-from csv import DictReader
-from .functions import load_prompts, register
+from .functions import load_prompts, check_history, register
 import os
 from openai import OpenAI
 
@@ -85,17 +84,10 @@ async def interpretations_explanation(req: TextRequest):
 
 
 @app.get("/history-view")
-async def history_view():
-    rows = []
-    with open("./backend/history.csv", newline='', encoding='utf-8') as historyfile:
-        reader = DictReader(historyfile)
-        for row in reader:
-            rows.append({
-                "question": row["question"],
-                "type": row["type"],
-                "answer": row["answer"]
-            })
-    return JSONResponse(content={"history": rows})
+async def hitory_view():
+    response = check_history()
+    return JSONResponse(content={"history": response})
+
 
 
 # Monta os arquivos da pasta 'static' 

@@ -174,30 +174,22 @@ async function loadHistory() {
     const container = document.getElementById('history-messages');
     container.innerHTML = ''; // limpa o container
 
-    data.history.forEach(item => {
-      const block = document.createElement("div");
-      block.classList.add("history-item");
+    data.forEach(item => {
+    const block = document.createElement("div");
+    block.classList.add("history-item");
 
-      const respostaHTML = marked.parse(item.answer);
-      
-      if (item.type === "general_explanation") {
-        tipoResposta = "Explicação Geral";
-      } else if (item.type === "pratical_explanation") {
-        tipoResposta = "Explicação Pratica";
-      } else if (item.type === "interpretations_explanation") {
-        tipoResposta = "Explicação com Interpretações Variadas";
-      }
+    const respostaHTML = marked.parse(item.answer);
+    
+    block.innerHTML = `
+      <p><strong>Pergunta:</strong> ${item.question}</p>
+      <p><strong>Tipo:</strong> ${item.type}</p>
+      <p><strong>Resposta:</strong></p>
+      <div class="markdown-answer">${respostaHTML}</div>
+      <hr>
+    `;
 
-      block.innerHTML = `
-              <h2><strong>Pergunta:\n</strong></h2>
-              <h3>Você: ${item.question}</h3>
-              <h3><strong>Tipo:</strong> ${tipoResposta}</h3>
-              <div class="markdown-answer">${respostaHTML}</div>
-              <hr>
-            `;
-
-      container.appendChild(block);
-    })
+    container.appendChild(block);
+  });
   } catch (err) {
     console.error("Erro ao carregar histórico:", err);
   }

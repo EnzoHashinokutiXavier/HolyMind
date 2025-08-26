@@ -20,6 +20,7 @@ def load_prompts(type):
         data += f"{prompts['identity']}\n"
         data += f"{prompts['limitations']}\n"
         data += f"{prompts['explanation']}\n"
+        data += f"{prompts['language']}\n"
 
         if type == 1:
             data += f"{prompts['general']}\n"

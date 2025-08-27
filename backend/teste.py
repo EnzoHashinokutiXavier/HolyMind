@@ -1,13 +1,6 @@
-cursor.execute("SELECT * FROM history")
-    rows = cursor.fetchall()
+from functions import check_history, register
 
-    # Pega os nomes das colunas
-    colunas = [description[0] for description in cursor.description]
+register("pergunta1", "tipo1", "resposta1")
 
-    # Transforma em lista de dicionários
-    historico = [dict(zip(colunas, row)) for row in rows]
-
-    conn.close()
-
-    # Retorna como JSON (ou pode printar se preferir)
-    return json.dumps(historico, indent=4, ensure_ascii=False)
+json = check_history()
+print(json)

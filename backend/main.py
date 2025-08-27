@@ -84,9 +84,9 @@ async def interpretations_explanation(req: TextRequest):
 
 
 @app.get("/history-view")
-async def hitory_view():
+async def history_view():
     response = check_history()
-    return JSONResponse(content={"history": response})
+    return response
 
 
 

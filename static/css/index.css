@@ -68,6 +68,14 @@ textarea {
     box-sizing: border-box; 
 }
 
+#resultado h2{
+    color: #7d74ff;
+}
+
+#resultado p {
+    color: #cdd3d4;
+}
+
 .button {
     display: flex;
     justify-content: space-between;
@@ -88,13 +96,12 @@ button {
 }
 
 
-#response {
+#resposta {
     margin-top: 16px;
-    background: #dfe6e9;
+    background: #1a2333;
     border-radius: 4px;
     padding: 12px;
-    min-height: 40px;
-    color: #2d3436;
+    color: #cdd3d4;
     white-space: pre-line;
 }
 

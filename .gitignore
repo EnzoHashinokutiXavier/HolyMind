@@ -6,4 +6,4 @@ __pycache__/
 *.pyd
 .env
 
-database/
+database/history.db

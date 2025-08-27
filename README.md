@@ -43,7 +43,7 @@ uvicorn backend.main:app --reload
 
 1. **Start the backend server:**
    ```sh
-   uvicorn main:app --reload
+   uvicorn backend.main:app --reload
    ```
 
 2. **Access the frontend:**  

@@ -23,7 +23,7 @@ async function sendRequest(type) { // Função para requisitar a resposta da IA,
 
         if (resp.ok) { // Se a resposta da api for OK
             const data = await resp.json(); // Data vai esperar um json
-            respostaIA.innerText = data.explanation; // O json vai ser mostrado no html diretamente na div de ID resposta da IA
+            respostaIA.innerText = marked.parse(data.explanation); // O json vai ser mostrado no html diretamente na div de ID resposta da IA
         } else { 
             const dataErro = await resp.json(); // Caso responda fora da condição, o erro esperado ser gerado vai ser exibido na div de ID resposta
             respostaIA.innerText = dataErro.detail

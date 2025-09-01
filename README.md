@@ -1,7 +1,8 @@
-```
-uvicorn backend.main:app --reload
-```
+# HolyMind
 
+A project developed for biblical learning.
+With several features, the project currently includes an AI assistant that explains Bible passages in various ways, useful for both laymen and those looking to deepen their knowledge.
+Find Bible passages by book, chapter, and verse!
 
 ## Requirements
 
@@ -50,3 +51,5 @@ uvicorn backend.main:app --reload
 
 2. **Access the frontend:**  
    Open [http://localhost:8000](http://localhost:8000) in your browser.
+
+<img width="1914" height="630" alt="image" src="https://github.com/user-attachments/assets/ab932efd-bf16-44f7-b94a-aca5916a9d0f" />

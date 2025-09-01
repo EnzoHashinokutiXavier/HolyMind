@@ -16,7 +16,6 @@ uvicorn backend.main:app --reload
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/EnzoHashinokutiXavier/HolyMind.git
-   cd ScripturaAI
    ```
 
 2. **Install dependencies:**
@@ -48,5 +47,3 @@ uvicorn backend.main:app --reload
 
 2. **Access the frontend:**  
    Open [http://localhost:8000](http://localhost:8000) in your browser.
-
-3. **Enter a Bible excerpt and choose the type of explanation.**

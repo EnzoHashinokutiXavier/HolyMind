@@ -38,6 +38,9 @@ uvicorn backend.main:app --reload
 
 ---
 
+<img width="1098" height="323" alt="image" src="https://github.com/user-attachments/assets/818dcff7-7f56-40cd-9e84-8cd1d4b69ccd" />
+
+
 ## Usage
 
 1. **Start the backend server:**

@@ -53,3 +53,36 @@ Find Bible passages by book, chapter, and verse!
    Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 <img width="1914" height="630" alt="image" src="https://github.com/user-attachments/assets/ab932efd-bf16-44f7-b94a-aca5916a9d0f" />
+
+
+# Contributors
+
+## [Enzo Hashinokuti](https://github.com/EnzoHashinokutiXavier)
+
+![alt text](<Captura de tela 2025-09-23 134142.png>)
+
+### Creator of the project's first prototype.
+Backend Python developer.
+
+## [Augusto Corrêa](https://github.com/Augustbr01)
+
+![alt text](<Captura de tela 2025-09-23 134159.png>)
+
+### Co-creator of the project's first prototype.
+Frontend JavaScript and HTML developer.
+
+## [Geovana](https://github.com/Geovana-Manu)
+
+![alt text](<Captura de tela 2025-09-23 134214.png>)
+
+### Stylized the first version of the project. 
+Frontend CSS developer.
+
+## [Luiz Eduardo](https://github.com/LuizEduardoMarchi)
+
+![alt text](<Captura de tela 2025-09-23 142319.png>)
+
+### Contributor to the visual planning of the project's future
+JavaScript developer.
+
+

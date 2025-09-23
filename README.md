@@ -59,28 +59,28 @@ Find Bible passages by book, chapter, and verse!
 
 ## [Enzo Hashinokuti](https://github.com/EnzoHashinokutiXavier)
 
-![alt text](<Captura de tela 2025-09-23 134142.png>)
+![alt text](https://avatars.githubusercontent.com/u/197978282?v=4)
 
 ### Creator of the project's first prototype.
 Backend Python developer.
 
 ## [Augusto Corrêa](https://github.com/Augustbr01)
 
-![alt text](<Captura de tela 2025-09-23 134159.png>)
+![alt text](https://avatars.githubusercontent.com/u/64938228?v=4)
 
 ### Co-creator of the project's first prototype.
 Frontend JavaScript and HTML developer.
 
 ## [Geovana](https://github.com/Geovana-Manu)
 
-![alt text](<Captura de tela 2025-09-23 134214.png>)
+![alt text](https://avatars.githubusercontent.com/u/120032533?v=4)
 
 ### Stylized the first version of the project. 
-Frontend CSS developer.
+Frontend CSS designer.
 
 ## [Luiz Eduardo](https://github.com/LuizEduardoMarchi)
 
-![alt text](<Captura de tela 2025-09-23 142319.png>)
+![alt text](https://avatars.githubusercontent.com/u/228020706?v=4)
 
 ### Contributor to the visual planning of the project's future
 JavaScript developer.

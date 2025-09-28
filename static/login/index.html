@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'rel='stylesheet'> 
+    <link rel="stylesheet" href="../login/style.css">
+    <link rel="icon" href="../img/logoholymind.png" type="image/x-icon">
+    <title>Log in or sign up - HolyMind</title>
+</head>
+
+<body>
+    <div class="logo">
+        <img src="../img/logoholymind.png" alt="Logo">
+    </div>
+    <main class="auth">
+        
+        <form class="login"> 
+            <h1>Log in</h1>
+
+            <div class="auth-box">
+                <input placeholder="Email address" type="email">
+                <i class="bx bxs-user"></i>
+            </div>
+
+            <div class="auth-box">
+                <input placeholder="Password" type="password">
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+            
+            <div class="auth-check-box-login">
+                <label>
+                    <input type="checkbox">
+                    Remember password
+                </label>
+                <a href="#">Forgot password</a>
+            </div>
+
+            <button class="auth-login">Log in</button>
+
+            <div class="auth-sign-up">
+                <p>Don't have an account? <a href="#">Register now</a></p>  
+            </div>
+        </form>
+        <form class="register"> 
+            <h1>Sign Up</h1>
+
+            <div class="auth-box">
+                <input placeholder="Username" type="text">
+                <i class="bx bxs-user"></i>
+            </div>
+
+
+            <div class="auth-box">
+                <input placeholder="Email address" type="email">
+                <i class="bx bxs-user"></i>
+            </div>
+
+            <div class="auth-box">
+                <input placeholder="Password" type="password">
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+
+            <div class="auth-box">
+                <input placeholder="Confirm Password" type="password">
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+            
+            <div class="auth-check-box">
+                <label>
+                    <input type="checkbox" required>
+                    Aceito os termos de uso
+                </label>
+                <label>
+                    <input type="checkbox">
+                    Desejo receber emails bla bla bla
+                </label>
+                
+            </div>
+
+            <button class="auth-login">Register</button>
+
+            <div class="auth-sign-up">
+                <p>Have an account? <a href="#">Login now</a></p>  
+            </div>
+        </form>   
+    </main>
+    <script src="../login/index.js"></script>
+</body>
+</html>

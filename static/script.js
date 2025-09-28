@@ -17,7 +17,7 @@ function verifyLogin(usuariologado) {
     if (usuariologado == true) {
         // envia a mensagem pra tela de chat
     } else {
-        window.location.href = '/Login/index.html';
+        window.location.href = './login/index.html';
     }
 }
 

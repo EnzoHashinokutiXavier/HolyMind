@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kavoon', cursive;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1A2333;
+}
+
+.logo {
+    display: flex;
+    justify-content: center; 
+    margin-bottom: 20px; 
+}
+
+.auth {
+    width: 400px;
+    height: auto;
+    border: 2px solid rgba(255, 255, 255, .2);
+    background-color: #354056; 
+    border-radius: 50px;
+    padding: 60px 40px;
+    color: rgba(255, 255, 255, 45);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.5) 0px 8px 16px -8px;
+}
+
+.auth h1{
+    margin-top: 20px;
+    font-size: 32px;
+    text-align: center;
+}
+
+.auth-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0px;
+}
+
+.auth-box input {
+    width: 100%;
+    height: 100%;
+    background-color: #202A3D ;
+    border: 2px solid rgba(255, 255, 255, .2);
+    outline: none;
+    font-size: 16px;
+    border-radius: 50px;
+    color: rgba(255, 255, 255, 45);
+    padding: 20px 45px 20px 20px;
+}
+
+/*caixa de icones de email e */
+.auth-box i{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translatey(-50%);
+    font-size: 20px;
+}
+
+.auth-check-box {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 15px;
+}
+
+.auth-check-box-login {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 15px;
+}
+
+
+.auth-check-box label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+}
+
+.auth-check-box-login label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    color: #fff;
+}
+
+
+
+.auth-check-box label input{
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.auth-check-box a{
+    text-decoration: none;
+    color: #FFF;
+    white-space: nowrap;
+}
+
+.auth-check-box-login a{
+    text-decoration: none;
+    color: #FFF;
+    white-space: nowrap;
+}
+
+.auth-check-box a:hover{
+    text-decoration: underline;
+}
+
+.auth-login {
+    width: 100%;
+    height: 50px;
+    background-color: #1A2333;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #FFF;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: 0.2s ease;
+}
+
+.auth-login:hover{
+    border: 1px solid rgb(240, 237, 237);
+    color: #FFF;
+    
+
+}
+
+.auth-sign-up {
+    font-size: 16px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.auth-sign-up a{
+    text-decoration: none;
+    color: #FFF;
+    font-weight: 600;
+}
+
+.auth-sign-up a:hover {
+    text-decoration: underline;
+}
+
+/* Register */
+
+.register {
+    display: none; /* esconde o form register por padrão */
+  }
+
+.active {
+  display: block !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+.login, .register {
+    transition: opacity .3s ease;
+}
+

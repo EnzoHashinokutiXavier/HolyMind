@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
+* {
+    
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: lighter;
+    font-family: 'Kavoon', cursive;
+    
+}
+
+body {
+    background: #1A2333;
+    
+    color: #fff;
+}
+
+/* HEADER */
+nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* brand | links | account */
+    align-items: center;       /* alinha verticalmente */
+    padding: 20px 5%;
+    background: #1f2a3b;      /* opcional, deixa mais bonito */
+    gap: 1px;
+}
+
+nav img {
+    width: 40px;               /* ajuste conforme sua logo */
+    height: 40px;
+}
+
+nav h2 {
+    margin-left: 10px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* MENU TOGGLE */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.nav-menu {
+    display: contents; /* permite posicionar filhos diretamente nas colunas do grid */
+}
+
+/* LINKS */
+.links {
+    display: flex;             /* necessário pro gap funcionar */
+    gap: 50px;                 /* espaçamento entre os <a> */
+    justify-content: center;   /* centraliza no desktop */
+}
+
+.links a {
+    color: #fff;
+    text-decoration: none;
+    
+    
+}
+
+.links a:hover {
+    color: #00bfff;
+    transition: all 0.5s;  
+    transform: scale(1.2);          /* cor ao passar o mouse */
+}
+
+/* CONTA */
+.account {
+    display: flex;             /* idem */
+    gap: 10px;
+    justify-self: end;         /* vai para a direita no grid */
+}
+
+.account button {
+    background: #1f2a3b;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    border-color: #fff;
+    padding: 8px 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.account button:hover {
+    background-color: #2c4b7a;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+}
+
+
+/* CONTAINER */
+.container {
+    width: 100%;
+    padding: 40px 10%;
+    text-align: center;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+    .links {
+        gap: 20px;
+    }
+    
+    .funcs {
+        gap: 20px;
+    }
+    
+    .func {
+        min-width: 250px;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        position: relative;
+        display: grid;
+        grid-template-columns: auto 1fr auto; /* brand | spacer | toggle */
+    }
+
+    .menu-toggle {
+        display: block;
+        grid-column: 3;
+        justify-self: end;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #1f2a3b;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 5%;
+        gap: 16px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-menu.open {
+        display: flex;
+    }
+
+    .links {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .links a {
+        padding: 8px 0;
+    }
+
+    .account {
+        width: 100%;
+    }
+
+    .funcs {
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        gap: 20px;
+        align-items: center;
+        
+    }
+
+    .func {
+        width: 100%;
+        max-width: none;
+        min-width: auto;
+        height: 200px;
+        padding: 20px;
+    }
+
+
+
+    
+}
+
+
+.apresentation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    width: 100%; 
+}
+
+.apresentation p {
+    margin-bottom: 100px;
+    color: #c0c0c0;
+
+}
+
+.input-container {
+   align-items:  center;
+   justify-self: center;
+   display: flex;
+   gap: 10px;
+}
+
+.input-container input{
+    width: 500px;
+    height: 50px;
+    border-radius: 100px;
+    border: none;
+    background-color: #1f2a3b;
+    color: #ffffff; /* Cor do texto digitado */
+    font-size: 16px;
+    padding: 12px;
+}
+
+/* Cor do placeholder (texto de exemplo) */
+.input-container input::placeholder {
+    color: #968a8a; /* Cor do placeholder */
+    opacity: 1; /* Garante que a cor seja aplicada corretamente */
+}
+
+.input-container button {
+    border-radius: 100%;
+    background-color: #1f2a3b;
+    color: #ffff;
+    width: 50px;
+    height: 50px;
+    border: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+}
+
+.input-container button:hover {
+    background-color: #354763;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+}
+
+.container {
+    background-color: #2d394e;
+}
+
+.funcs {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.func {
+    background-color: #1d2737;
+    border: none;
+    border-radius: 30px;
+    height: auto;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 300px;
+    max-width: 350px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.func:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.func img {
+    width: 150px;
+    height: auto;
+}
+
+.func p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.footer {
+    background-color: #1A2333;
+    color: #fff;
+    
+    padding: 40px 20px;
+    font-family: 'Kavoon', cursive;
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    width: 50px;
+    display: block;
+    height: auto;
+    margin-bottom: 0;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.footer-brand p {
+    margin: 0;
+    display: block;
+    font-size: 20px;
+    
+}
+
+
+.footer-contact p {
+  margin: 5px 0;
+  font-size: 14px;
+}

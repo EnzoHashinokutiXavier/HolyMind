@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from auth import router as auth_router
 from fastapi.staticfiles import StaticFiles 
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
@@ -16,6 +17,7 @@ client = OpenAI(api_key=api_key)
 
 app = FastAPI()
 
+app.include_router(auth_router)
 
 # Modelo base da requisição de texto
 class TextRequest(BaseModel):

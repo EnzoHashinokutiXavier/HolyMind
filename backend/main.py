@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles 
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
-from .functions import load_prompts, check_history, register
+from .functions import load_prompts, check_history, register, load_user_info
 import os
 from openai import OpenAI
 
@@ -19,75 +19,35 @@ app = FastAPI()
 
 # Modelo base da requisição de texto
 class TextRequest(BaseModel):
+    user_id: int
     text: str
 
 
-
-# Define um POST endpoint em /aichat
-@app.post("/general-explanation")
-async def general_explanation(req: TextRequest):
+# -Rota-unica------------------------------------------- Desenvolvendo
+@app.post("/ai-explanation")
+async def ai_explanation(req: TextRequest):
     try:
-        data = load_prompts(1)
-        # Chama a API da OpenAI para responder a conversa
+        data = load_user_info(req.user_id)
         response = client.chat.completions.create(
-            model = "gpt-4o-mini", # Modelo do chat
-            messages=[
-                # Define padrão de comportamento do sistema
-                {"role": "system", "content": f"{data}"},
-
-                # Define o pedido do usuario
-                {"role": "user", "content" : f"{req.text}"}
-            ]
-        )
-        register(req.text, "general_explanation", response.choices[0].message.content)
-        # Retorna a explicação do assistente em JSON
-        return{"explanation": response.choices[0].message.content}
-    except Exception as e:
-        # Se algo der errado, retorna um erro HTTP 500 com os detalhes
-        raise HTTPException(status_code=500, detail=str(e))
-    
-    #Endpoint para uso futuro
-@app.post("/practical-explanation")
-async def practical_explanation(req: TextRequest):
-    try:
-        data = load_prompts(2)
-        response = client.chat.completions.create(
-            model = "gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": f"{data}"},
+            model = data[0],
+            messages = [
+                {"role": "system", "content": f"{data[1]}"},
 
                 {"role": "user", "content": f"{req.text}"}
             ]
         )
-        register(req.text, "pratical_explanation", response.choices[0].message.content)
+        register()#registrar no historico do usuário
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    #Endpoint para uso futuro
-@app.post("/interpretations-explanation")
-async def interpretations_explanation(req: TextRequest):
-    try:
-        data = load_prompts(3)
-        response = client.chat.completions.create(
-            model = "gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": f"{data}"},
-
-                {"role": "user", "content": f"{req.text}"}
-            ]
-        )
-        register(req.text, "interpretations_explanation", response.choices[0].message.content)
-        return{"explanation": response.choices[0].message.content}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# -----------------------------------------------------
 
 
 @app.get("/history-view")
 async def history_view():
     response = check_history()
     return response
-
 
 
 # Monta os arquivos da pasta 'static' 
@@ -99,4 +59,5 @@ app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__
 async def root():
     # Retorna o arquivo html
     return FileResponse(os.path.join(os.path.dirname(__file__), "..", "static", "index.html"))
+
 

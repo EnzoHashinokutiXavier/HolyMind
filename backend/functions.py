@@ -1,7 +1,7 @@
 import json
 import sqlite3
 
-def register(question, type, answer):
+def register(question, type, answer):    ##### REFAZER
     try:
         conn = sqlite3.connect('backend/database/history.db')
         cursor = conn.cursor()
@@ -20,7 +20,7 @@ def register(question, type, answer):
         if 'conn' in locals():
             conn.close()
 
-def check_history():
+def check_history():   ######## REFAZER
     try:
         conn = sqlite3.connect('backend/database/history.db')
         cursor = conn.cursor()
@@ -43,21 +43,38 @@ def check_history():
         if 'conn' in locals():
             conn.close()
 
-def load_prompts(type):
+
+def load_prompts(user_info):
     data = ''
     with open("backend\\prompts.json", "r", encoding='utf-8') as file:
         prompts = json.load(file)
+        data += f"{prompts['identity']}\n{prompts['limitations']}\n{prompts['explanation']}\n{prompts['language']}\n{prompts['exception']}\n"
+        data += "You need to respond to the user based on their information and preferences:"
+        data += ""
+        # nivel de conhecimento (superficial, mediano, profundo), idade, denominação
+        # nivel de resposta (simple, deep), resposta com exemplos de aplicações dos ensinamentos (true, false)
+        # comparação com textos originais - hebraico, aramaico, grego (true, false)
+        # exibir interpretações de diversas denominações (true, false)
+    return data
+    
 
-        data += f"{prompts['identity']}\n"
-        data += f"{prompts['limitations']}\n"
-        data += f"{prompts['explanation']}\n"
-        data += f"{prompts['language']}\n"
+def load_user_info(user_id):
+    #abrir database
+    #acessar usuário
+    #recolher : tipo de resposta
 
-        if type == 1:
-            data += f"{prompts['general']}\n"
-        elif type == 2:
-            data += f"{prompts['practical']}\n"
-        elif type == 3:
-            data += f"{prompts['interpretation']}\n"
+    response_type = x #tipo de resposta
 
-        return data
+    if response_type == 'simple':
+        model = "gpt-4o-mini"
+    elif response_type == 'deep':
+        model = "gpt-4-turbo"
+    else:
+        model = "gpt-4o-mini"
+
+    info = x #informações
+
+    prompt = load_prompts(info)
+
+    data = [model, prompt]
+    return data

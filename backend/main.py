@@ -2,10 +2,13 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles 
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
-from .functions import load_prompts, check_history, register, load_user_info
+from dotenv import load_dotenv
+from .functions import check_history, register, load_user_info
 import os
 from openai import OpenAI
 
+# Carrega o arquivo .env
+load_dotenv()
 # Carrega a variavel do env
 api_key = os.getenv("OPENAI_API_KEY")
 # Protege contra a falta de chave definida
@@ -36,7 +39,7 @@ async def ai_explanation(req: TextRequest):
                 {"role": "user", "content": f"{req.text}"}
             ]
         )
-        register()#registrar no historico do usuário
+        register()#registrar no historico do usuário----------
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

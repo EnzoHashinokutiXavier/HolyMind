@@ -45,7 +45,7 @@ def check_history():   ######## REFAZER
 
 
 # ----------------------------------------------------- Desenvolvendo
-def register_user(username, password):
+def register_user(username, password, age):
     try:
         conn = sqlite3.connect('backend/database/holymind.db')
         cursor = conn.cursor()
@@ -53,10 +53,13 @@ def register_user(username, password):
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            age INTEGER NOT NULL,
+            denomination TEXT DEFAULT 'no',
+            knowledge_level TEXT DEFAULT 'low'
         );
                        
-        CREATE TABLE IF NOT EXIST preferences (
+        CREATE TABLE IF NOT EXISTS preferences (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             response_level TEXT DEFAULT 'simple',
@@ -67,9 +70,9 @@ def register_user(username, password):
         );
         ''')
         #inserir usuário
-        cursor.execute('''INSERT INTO users (username, password) 
-                       VALUES (?, ?)
-                       ''', (username, password))
+        cursor.execute('''INSERT INTO users (username, password, age) 
+                       VALUES (?, ?, ?)
+                       ''', (username, password, age))
         
         #pegar id
         user_id = cursor.lastrowid
@@ -89,8 +92,6 @@ def register_user(username, password):
 # -----------------------------------------------------
 
 # ----------------------------------------------------- Desenvolvendo
-def 
-
 
 
 

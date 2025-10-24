@@ -1,8 +1,7 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 from pathlib import Path
 import sqlite3
-from time import timezone
 from jose import jwt, JWTError
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, Request, Response
@@ -10,7 +9,7 @@ from pydantic import BaseModel
 import bcrypt
 
 # ----- Configuração Inicial --------
-env_path = Path(__file__).parent / ".env"
+env_path = "./.env"
 load_dotenv(dotenv_path=env_path)
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -20,8 +19,8 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 # ------ Funções auxiliares ------
 
-def get_connection_db():
-    conn = sqlite3.connect("", timeout = 10)
+def get_db_connection():
+    conn = sqlite3.connect("backend/database/holymind.db", timeout = 10)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -62,7 +61,51 @@ class UserLogin(BaseModel):
 # ------ ROTAS -----------------
 
 # @router.post("/register")
+@router.post("/register") 
+def register(user: UserRegister): 
+    conn = get_db_connection() 
+    cursor = conn.cursor() 
+
+    if len(user.password) < 8: 
+        raise HTTPException(status_code=400, detail="Senha deve ter no mínimo 8 caracteres.") 
+    
+    password_bytes = user.password.encode('utf-8') 
+    salt = bcrypt.gensalt() 
+    senhahash = bcrypt.hashpw(password_bytes, salt).decode('utf-8')
+
+    try: 
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (user.username, senhahash)) 
+        conn.commit() 
+        return {"message": f"Usuário {user.username} registrado com sucesso!"}
+    except sqlite3.IntegrityError: 
+        raise HTTPException(status_code=400, detail="Usuário já existe") 
+    
+    finally:
+        conn.close() 
+
 
 # @router.post("/login")
+@router.post("/login") 
+def login(user: UserLogin, response: Response):
+    conn = get_db_connection() 
+    cursor = conn.cursor() 
+    cursor.execute("SELECT password FROM users WHERE username = ?", (user.username,)) 
+    row = cursor.fetchone() 
+
+    if row is None: 
+        raise HTTPException(status_code=401, detail="Credenciais Invalidas") 
+    else: 
+        senhaUSER = row["password"] 
+     
+    #cursor.execute("SELECT username FROM users WHERE email = ?", (user.username,))
+    #rowuser = cursor.fetchone()
+    #username = rowuser["username"]
+
+    if bcrypt.checkpw(user.password.encode('utf-8'), senhaUSER.encode('utf-8')): 
+        token = gerarToken(user.username, response)
+        return {"message": "Login foi feito! senha igual", "access_token": token, "token_type": "bearer"}
+
+    else:
+        raise HTTPException(status_code=401, detail="Credenciais Invalidas")
 
 # ------------------------------

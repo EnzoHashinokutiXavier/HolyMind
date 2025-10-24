@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from auth import router as auth_router
+from .auth import router as auth_router
 from fastapi.staticfiles import StaticFiles 
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel

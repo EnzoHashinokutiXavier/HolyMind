@@ -52,10 +52,12 @@ def verificarToken(request: Request):
 
 class UserRegister(BaseModel):
     username: str
+    email: str
     password: str
+    
 
 class UserLogin(BaseModel):
-    username: str
+    email: str
     password: str
 
 # ------ ROTAS -----------------
@@ -74,7 +76,7 @@ def register(user: UserRegister):
     senhahash = bcrypt.hashpw(password_bytes, salt).decode('utf-8')
 
     try: 
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (user.username, senhahash)) 
+        cursor.execute("INSERT INTO users (email, username, password) VALUES (?, ?, ?)", (user.email, user.username, senhahash)) 
         conn.commit() 
         return {"message": f"Usuário {user.username} registrado com sucesso!"}
     except sqlite3.IntegrityError: 
@@ -89,7 +91,7 @@ def register(user: UserRegister):
 def login(user: UserLogin, response: Response):
     conn = get_db_connection() 
     cursor = conn.cursor() 
-    cursor.execute("SELECT password FROM users WHERE username = ?", (user.username,)) 
+    cursor.execute("SELECT password FROM users WHERE email = ?", (user.email,)) 
     row = cursor.fetchone() 
 
     if row is None: 
@@ -97,12 +99,12 @@ def login(user: UserLogin, response: Response):
     else: 
         senhaUSER = row["password"] 
      
-    #cursor.execute("SELECT username FROM users WHERE email = ?", (user.username,))
-    #rowuser = cursor.fetchone()
-    #username = rowuser["username"]
+    cursor.execute("SELECT username FROM users WHERE email = ?", (user.email,))
+    rowuser = cursor.fetchone()
+    username = rowuser["username"]
 
     if bcrypt.checkpw(user.password.encode('utf-8'), senhaUSER.encode('utf-8')): 
-        token = gerarToken(user.username, response)
+        token = gerarToken(username, response)
         return {"message": "Login foi feito! senha igual", "access_token": token, "token_type": "bearer"}
 
     else:

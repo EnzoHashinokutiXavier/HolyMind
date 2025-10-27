@@ -1,10 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from .auth import router as auth_router
 from fastapi.staticfiles import StaticFiles 
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from .functions import load_prompts, check_history, register
 import os
+from .database.buildDB import create_tables
+import sqlite3
+from contextlib import asynccontextmanager
 from openai import OpenAI
 
 # Carrega a variavel do env
@@ -15,7 +18,18 @@ if not api_key:
 # Cria o cliente para usar a API
 client = OpenAI(api_key=api_key)
 
-app = FastAPI()
+
+# --- ciclo de vida ---
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("INFO:    🚀 Inicializando servidor...")
+    create_tables()  # executa na inicialização
+    yield # ISSO DIFERENCIA A INICIALIZAÇÃO DO ENCERRAMENTO DO FASTAPI
+    print("INFO:    🛑 Encerrando servidor...")  # executa no shutdown
+
+
+# --- Instância principal do app ---
+app = FastAPI(lifespan=lifespan)
 
 app.include_router(auth_router)
 

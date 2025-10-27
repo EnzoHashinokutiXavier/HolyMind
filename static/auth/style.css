@@ -178,3 +178,13 @@ body {
     transition: opacity .3s ease;
 }
 
+
+#sucess {
+    padding-top: 20px;
+    justify-self: center;
+}
+
+#error {
+    padding-top: 20px;
+    justify-self: center;
+}

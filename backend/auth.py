@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 import os
-from pathlib import Path
 import sqlite3
 from jose import jwt, JWTError
 from dotenv import load_dotenv
-from fastapi import APIRouter, HTTPException, Request, Response
+from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException, Request, Response, status
 from pydantic import BaseModel
 import bcrypt
 
@@ -34,7 +34,8 @@ def gerarToken(username: str, response: Response):
         httponly=True,
         secure=False,
         samesite="lax",
-        max_age=3600
+        max_age=3600,
+        path="/"
     )
     return token
 
@@ -47,27 +48,49 @@ def verificarToken(request: Request):
         return payload
     except JWTError:
         raise HTTPException(status_code=401, detail="Token invalido ou expirado!")
+    
+def calcularIdade(data_str: str) -> int:
+    try:
+        data_nascimento = datetime.strptime(data_str, "%Y-%m-%d").date()
+    except ValueError:
+        raise HTTPException(
+            status_code=400, 
+            detail="Formato de data inválido. Use AAAA-MM-DD."
+        )
+
+    hoje = date.today()
+    
+    idade = hoje.year - data_nascimento.year
+    if (hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day):
+        idade -= 1
+
+    return idade
+
 
 # ------- Modelo Pydantic-------
 
 class UserRegister(BaseModel):
     username: str
-    email: str
     password: str
+    birthDate: str
     
 
 class UserLogin(BaseModel):
-    email: str
+    username: str
     password: str
 
 # ------ ROTAS -----------------
 
-# @router.post("/register")
 @router.post("/register") 
 def register(user: UserRegister): 
     conn = get_db_connection() 
     cursor = conn.cursor() 
 
+    age = calcularIdade(user.birthDate)
+
+    if (age < 12):
+        raise HTTPException(status_code=400, detail=f"Usuario {user.username} não tem idade minima para se cadastrar")
+    
     if len(user.password) < 8: 
         raise HTTPException(status_code=400, detail="Senha deve ter no mínimo 8 caracteres.") 
     
@@ -76,7 +99,7 @@ def register(user: UserRegister):
     senhahash = bcrypt.hashpw(password_bytes, salt).decode('utf-8')
 
     try: 
-        cursor.execute("INSERT INTO users (email, username, password) VALUES (?, ?, ?)", (user.email, user.username, senhahash)) 
+        cursor.execute("INSERT INTO users (username, password, age) VALUES (?, ?, ?)", ( user.username, senhahash, age)) 
         conn.commit() 
         return {"message": f"Usuário {user.username} registrado com sucesso!"}
     except sqlite3.IntegrityError: 
@@ -91,7 +114,7 @@ def register(user: UserRegister):
 def login(user: UserLogin, response: Response):
     conn = get_db_connection() 
     cursor = conn.cursor() 
-    cursor.execute("SELECT password FROM users WHERE email = ?", (user.email,)) 
+    cursor.execute("SELECT password FROM users WHERE username = ?", (user.username,)) 
     row = cursor.fetchone() 
 
     if row is None: 
@@ -99,15 +122,38 @@ def login(user: UserLogin, response: Response):
     else: 
         senhaUSER = row["password"] 
      
-    cursor.execute("SELECT username FROM users WHERE email = ?", (user.email,))
-    rowuser = cursor.fetchone()
-    username = rowuser["username"]
+    #cursor.execute("SELECT username FROM users WHERE email = ?", (user.email,))
+    #rowuser = cursor.fetchone()
+    #username = rowuser["username"]
 
-    if bcrypt.checkpw(user.password.encode('utf-8'), senhaUSER.encode('utf-8')): 
-        token = gerarToken(username, response)
-        return {"message": "Login foi feito! senha igual", "access_token": token, "token_type": "bearer"}
+    if bcrypt.checkpw(user.password.encode('utf-8'), senhaUSER.encode('utf-8')):
+        token = gerarToken(user.username, response)
+        return {"message": "Login realizado com sucesso"}
 
     else:
         raise HTTPException(status_code=401, detail="Credenciais Invalidas")
 
-# ------------------------------
+
+@router.get("/status")
+def get_login_status(request: Request):
+    try:
+        verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
+        return {"logado": True}
+    except HTTPException:
+        return {"logado": False}
+    
+
+@router.post("/logout")
+def logout():
+    response = JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={"message": "Logout realizado com sucesso!"}
+    )
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        secure=False,
+        samesite="lax",
+        path="/"
+    )
+    return response

@@ -23,7 +23,7 @@ client = OpenAI(api_key=api_key)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("INFO:    🚀 Inicializando servidor...")
-    create_tables()  # executa na inicialização
+    create_tables()  # executa na inicialização, criando o banco de dados caso nao tenha
     yield # ISSO DIFERENCIA A INICIALIZAÇÃO DO ENCERRAMENTO DO FASTAPI
     print("INFO:    🛑 Encerrando servidor...")  # executa no shutdown
 

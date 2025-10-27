@@ -100,7 +100,11 @@ def register(user: UserRegister):
 
     try: 
         cursor.execute("INSERT INTO users (username, password, age) VALUES (?, ?, ?)", ( user.username, senhahash, age)) 
-        conn.commit() 
+        user_id = cursor.lastrowid
+        conn.commit()
+
+        cursor.execute("INSERT INTO preferences(user_id) VALUES (?)", (user_id,))
+        conn.commit()
         return {"message": f"Usuário {user.username} registrado com sucesso!"}
     except sqlite3.IntegrityError: 
         raise HTTPException(status_code=400, detail="Usuário já existe") 

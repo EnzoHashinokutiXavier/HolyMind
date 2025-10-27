@@ -1,341 +1,293 @@
 @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
 
 * {
-    
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-style: normal;
-    font-weight: lighter;
-    font-family: 'Kavoon', cursive;
-    
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Kavoon', cursive;
 }
 
 body {
-    background: #1A2333;
-    
-    color: #fff;
+  background: #1A2333;
+  color: #fff;
 }
 
-/* HEADER */
+/* ===== NAV ===== */
 nav {
-    display: grid;
-    grid-template-columns: auto 1fr auto; /* brand | links | account */
-    align-items: center;       /* alinha verticalmente */
-    padding: 20px 5%;
-    background: #1f2a3b;      /* opcional, deixa mais bonito */
-    gap: 1px;
-}
-
-nav img {
-    width: 40px;               /* ajuste conforme sua logo */
-    height: 40px;
-}
-
-nav h2 {
-    margin-left: 10px;
+  position: relative;
+  background: #1f2a3b;
+  padding: 18px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* desktop: menu centralizado */
+  gap: 12px;
+  z-index: 50;
 }
 
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  position: absolute;
+  left: 6%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand img { width: 45px; height: 45px; }
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
 }
 
-/* MENU TOGGLE */
-.menu-toggle {
-    display: none;
-    background: transparent;
-    color: #fff;
-    border: none;
-    font-size: 28px;
-    cursor: pointer;
+.account {
+  position: absolute;
+  right: 6%;
 }
 
 .nav-menu {
-    display: contents; /* permite posicionar filhos diretamente nas colunas do grid */
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  justify-content: center;
 }
 
-/* LINKS */
 .links {
-    display: flex;             /* necessário pro gap funcionar */
-    gap: 50px;                 /* espaçamento entre os <a> */
-    justify-content: center;   /* centraliza no desktop */
+  display: flex;
+  gap: 36px;
 }
 
 .links a {
-    color: #fff;
-    text-decoration: none;
-    
-    
+  color: #fff;
+  text-decoration: none;
+  transition: transform .18s ease, color .18s ease;
 }
 
-.links a:hover {
-    color: #00bfff;
-    transition: all 0.5s;  
-    transform: scale(1.2);          /* cor ao passar o mouse */
-}
-
-/* CONTA */
-.account {
-    display: flex;             /* idem */
-    gap: 10px;
-    justify-self: end;         /* vai para a direita no grid */
-}
+.links a:hover { transform: translateY(-3px); color: #00bfff; }
 
 .account button {
-    background: #1f2a3b;
-    color: #fff;
-    font-size: 20px;
-    border: none;
-    border-color: #fff;
-    padding: 8px 16px;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  background: #1f2a3b;
+  color: #fff;
+  border: 1px solid #00bfff;
+  padding: 8px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .account button:hover {
-    background-color: #2c4b7a;
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+  background: #2c4b7a;
+  transform: scale(1.1);
 }
 
-
-/* CONTAINER */
-.container {
-    width: 100%;
-    padding: 40px 10%;
-    text-align: center;
-}
-
-/* RESPONSIVIDADE */
-@media (max-width: 900px) {
-    .links {
-        gap: 20px;
-    }
-    
-    .funcs {
-        gap: 20px;
-    }
-    
-    .func {
-        min-width: 250px;
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 768px) {
-    nav {
-        position: relative;
-        display: grid;
-        grid-template-columns: auto 1fr auto; /* brand | spacer | toggle */
-    }
-
-    .menu-toggle {
-        display: block;
-        grid-column: 3;
-        justify-self: end;
-    }
-
-    .nav-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #1f2a3b;
-        display: none;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 16px 5%;
-        gap: 16px;
-        border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .nav-menu.open {
-        display: flex;
-    }
-
-    .links {
-        width: 100%;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .links a {
-        padding: 8px 0;
-    }
-
-    .account {
-        width: 100%;
-    }
-
-    .funcs {
-        flex-direction: column;
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-        gap: 20px;
-        align-items: center;
-        
-    }
-
-    .func {
-        width: 100%;
-        max-width: none;
-        min-width: auto;
-        height: 200px;
-        padding: 20px;
-    }
-
-
-
-    
-}
-
-
+/* ===== APRESENTATION ===== */
 .apresentation {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 500px;
-    width: 100%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.apresentation h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
 }
 
 .apresentation p {
-    margin-bottom: 100px;
-    color: #c0c0c0;
-
+  color: #c0c0c0;
+  margin: 20px 0 40px;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
 }
 
 .input-container {
-   align-items:  center;
-   justify-self: center;
-   display: flex;
-   gap: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 30%;
 }
 
-.input-container input{
-    width: 500px;
-    height: 50px;
-    border-radius: 100px;
-    border: none;
-    background-color: #1f2a3b;
-    color: #ffffff; /* Cor do texto digitado */
-    font-size: 16px;
-    padding: 12px;
-}
-
-/* Cor do placeholder (texto de exemplo) */
-.input-container input::placeholder {
-    color: #968a8a; /* Cor do placeholder */
-    opacity: 1; /* Garante que a cor seja aplicada corretamente */
+.input-container input {
+  width: min(90%, 450px);
+  height: 48px;
+  border-radius: 50px;
+  border: none;
+  background: #1f2a3b;
+  color: #fff;
+  padding: 0 16px;
+  font-size: 16px;
 }
 
 .input-container button {
-    border-radius: 100%;
-    background-color: #1f2a3b;
-    color: #ffff;
-    width: 50px;
-    height: 50px;
-    border: none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #1f2a3b;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input-container button:hover {
-    background-color: #354763;
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+  background: #354763;
+  transform: scale(1.1);
 }
 
+/* ===== FUNÇÕES ===== */
 .container {
-    background-color: #2d394e;
+  background: #2d394e;
+  padding: 60px 6%;
+  text-align: center;
 }
 
 .funcs {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
 }
 
 .func {
-    background-color: #1d2737;
-    border: none;
-    border-radius: 30px;
-    height: auto;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    
-    align-items: center;
-    text-align: center;
-    flex: 1;
-    min-width: 300px;
-    max-width: 350px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #1d2737;
+  border-radius: 25px;
+  padding: 25px;
+  max-width: 340px;
+  flex: 1 1 280px;
+  transition: 0.3s;
 }
 
 .func:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .func img {
-    width: 150px;
-    height: auto;
+  width: 120px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.func h3 {
+  margin-bottom: 10px;
 }
 
 .func p {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin-top: 10px;
-    padding-top: 10px;
+  font-size: 0.95rem;
+  color: #cfcfcf;
 }
 
+/* ===== FOOTER ===== */
 .footer {
-    background-color: #1A2333;
-    color: #fff;
-    
-    padding: 40px 20px;
-    font-family: 'Kavoon', cursive;
+  background: #1A2333;
+  color: #fff;
+  padding: 40px 6%;
+  text-align: center;
 }
 
 .footer-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 }
 
 .footer-logo {
-    width: 50px;
-    display: block;
-    height: auto;
-    margin-bottom: 0;
+  width: 50px;
+  height: auto;
 }
-
-.footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.footer-brand p {
-    margin: 0;
-    display: block;
-    font-size: 20px;
-    
-}
-
 
 .footer-contact p {
   margin: 5px 0;
   font-size: 14px;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 900px) {
+
+  nav {
+    justify-content: space-between;
+    padding: 12px 4%;
+  }
+
+  .brand, .account {
+    position: static;
+  }
+
+  .menu-toggle { display: block; }
+
+  .nav-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    display: none;               /* closed by default */
+    flex-direction: column;
+    gap: 14px;
+    background: #182331;
+    padding: 16px 6%;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    z-index: 49;
+    transform-origin: top center;
+  }
+
+  .nav-menu.open {
+    display: flex;
+    animation: navSlideDown .22s cubic-bezier(.2,.9,.2,1) forwards;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .links a {
+    padding: 10px 6px;
+    width: 100%;
+    display: inline-block;
+    border-radius: 8px;
+  }
+
+  .account {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .account .signin {
+    width: auto;
+    padding: 8px 14px;
+  }
+
+  .input-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 300px;
+}
+}
+
+@media (max-width: 420px) {
+  .links a { font-size: 0.95rem; }
+  .brand h2 { font-size: 1rem; }
+}
+
+@keyframes navSlideDown {
+  0% { opacity: 0; transform: translateY(-8px) scaleY(.98); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); }
 }

@@ -21,6 +21,7 @@ nav {
   align-items: center;
   justify-content: center; /* desktop: menu centralizado */
   gap: 12px;
+  height: 70px;
   z-index: 50;
 }
 
@@ -43,6 +44,8 @@ nav {
 }
 
 .account {
+  display: flex;
+  gap: 10px;
   position: absolute;
   right: 6%;
 }
@@ -93,7 +96,7 @@ nav {
 }
 
 .apresentation h1 {
-  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-size: clamp(1.4rem, 4vw, 2rem);
 }
 
 .apresentation p {
@@ -264,6 +267,7 @@ nav {
 
   .account {
     width: 100%;
+    gap: 10px;
     display: flex;
     justify-content: flex-start;
   }

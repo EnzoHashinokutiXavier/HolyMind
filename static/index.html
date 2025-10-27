@@ -1,98 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HolyMind V2</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Kavoon&display=swap" rel="stylesheet">
-  
-  <!-- Icons -->
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="/static/index.css">
+    <title>HolyMind V2</title>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<body>
-  <nav>
-    <div class="brand">
-      <img src="/static/img/logoholymind.png" alt="Logo">
-      <h2>HolyMind</h2>
-    </div>
+    <body>
+        <nav>
+            <div class="brand">
+                <img src="/static/img/logoholymind.png" alt="Logo">
+                <h2>HolyMind</h2>
+            </div>
+            <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+            <div class="nav-menu">
+                <div class="links">
+                    <a href="/static/index.html">Home</a>
+                    <a href="/static/index.html">Chat</a>
+                    <a href="index.html">Explanations</a>
+                    <a href="index.html">Search</a>
+                    <a href="index.html">Study</a>
+                    <a href="index.html">Library</a>
+                </div>
+                
+                <div class="account">
+                    <button onclick="window.location.href='/static/auth/index.html';" class="signin">Sign In</button>
+                    
+                </div>
+            </div>
+        </nav>
+        <section class="apresentation">
+            <h1>Hello and Welcome! 👋</h1>
+            <p>I'm your AI assistant, here to help you with your Bible studies.</p>
+            <div class="input-container">
+               <input type="text" placeholder="Ask me something biblical...">
+               <button onclick="verifyLogin()">
+                <svg xmlns="./img/send.svg" width="20" height="20" fill="currentColor"
+                    viewBox="0 0 50 5-">
+                    <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                </svg>
+               </button> 
+            </div>
+        </section>
+        <section class="container">
+            <div class="funcs">
+                <div class="func">
+                    <h3>Explicação via IA</h3>
+                    <img src="/static/img/biblia.svg" alt="">
+                    <p>Receba interpretações claras e contextuais de versículos ou capítulos inteiros, geradas por inteligência artificial.</p>
+                    <p>Ideal tanto para quem está iniciando no estudo bíblico quanto para quem deseja aprofundar seu entendimento. Basta escolher o livro, capítulo e versículo para obter uma explicação imediata e acessível.</p>
 
-    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+                </div>
+                <div class="func">
+                    <h3>Consultar Versiculos</h3>
+                    <img src="/static/img/LUPA.svg" alt="">
+                    <p>Encontre qualquer passagem da Bíblia de forma simples e imediata. Selecione livro, capítulo e versículo e tenha o texto completo na tela em segundos.</p>
+                    <p>Ideal para leituras rápidas, estudos ou compartilhamento com outras pessoas.</p>
 
-    <div class="nav-menu" id="mainNav">
-      <div class="links">
-        <a href="#">Home</a>
-        <a href="#">Chat</a>
-        <a href="#">Explanations</a>
-        <a href="#">Search</a>
-        <a href="#">Study</a>
-        <a href="#">Library</a>
-      </div>
+                </div>
+                <div class="func">
+                    <h3>Estudo motivacional</h3>
+                    <img src="/static/img/conquista.svg" alt="">
+                    <p>Acompanhe seu progresso de estudo diretamente no seu perfil e desbloqueie conquistas à medida que avança. Suba de nível, complete desafios e mantenha sua motivação em alta enquanto aprofunda seu conhecimento bíblico de forma divertida e interativa.</p>
+                    
 
-      <div class="account">
-        <button onclick="window.location.href='/static/auth/index.html';" class="signin">Sign In</button>
-      </div>
-    </div>
-  </nav>
-
-  <section class="apresentation">
-    <h1>Hello and Welcome! 👋</h1>
-    <p>I'm your AI assistant, here to help you with your Bible studies.</p>
-    <div class="input-container">
-      <input type="text" placeholder="Ask me something biblical...">
-      <button onclick="verifyLogin()">
-        <i class='bx bx-send'></i>
-      </button>
-    </div>
-  </section>
-
-  <section class="container">
-    <div class="funcs">
-      <div class="func">
-        <h3>Explicação via IA</h3>
-        <img src="/static/img/biblia.svg" alt="">
-        <p>Receba interpretações claras e contextuais de versículos ou capítulos inteiros, geradas por IA.</p>
-      </div>
-      <div class="func">
-        <h3>Consultar Versículos</h3>
-        <img src="/static/img/LUPA.svg" alt="">
-        <p>Encontre passagens da Bíblia de forma simples e rápida, ideal para estudos ou compartilhamento.</p>
-      </div>
-      <div class="func">
-        <h3>Estudo motivacional</h3>
-        <img src="/static/img/conquista.svg" alt="">
-        <p>Desbloqueie conquistas e acompanhe seu progresso enquanto aprofunda seu conhecimento bíblico.</p>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <img src="/static/img/logoholymind.png" alt="HolyMind Logo" class="footer-logo">
-        <p>HolyMind – Aprendizado Bíblico Inteligente</p>
-      </div>
-      <div class="footer-contact">
-        <h4>Contato</h4>
-        <p>Email: naotemosemail@holymind.com</p>
-        <p>© 2025 HolyMind. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // Menu responsivo
-    const menuBtn = document.querySelector(".menu-toggle");
-    const navMenu = document.querySelector(".nav-menu");
-    menuBtn.addEventListener("click", () => {
-      navMenu.classList.toggle("open");
-    });
-  </script>
-</body>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <div class="footer-container">
+              <div class="footer-brand">
+                <img src="/static/img/logoholymind.png" alt="HolyMind Logo" class="footer-logo">
+                <p>HolyMind – Aprendizado Bíblico Inteligente</p>
+              </div>
+          
+              
+          
+              <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>Email: naotemosemail@holymind.com</p>
+                <p>© 2025 HolyMind. All rights reserved.                    .</p>
+              </div>
+            </div>
+          </footer>
+          <script src="/static/script.js"></script>
+    </body>
 </html>

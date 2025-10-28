@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 from .auth import router as auth_router
 from fastapi.staticfiles import StaticFiles 
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
+from .exibirdb import router as showdb_router  # import what you need
 from dotenv import load_dotenv
-from .functions import check_history, register, load_user_info
+from .functions import load_user_info
+from .teste import chat_register
 import os
 from .database.buildDB import create_tables
 import sqlite3
@@ -35,6 +37,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(auth_router)
+app.include_router(showdb_router)
 
 # Modelo base da requisição de texto
 class TextRequest(BaseModel):
@@ -55,7 +58,7 @@ async def ai_explanation(req: TextRequest):
                 {"role": "user", "content": f"{req.text}"}
             ]
         )
-        register()#registrar no historico do usuário----------
+        chat_register() #registrar no historico do usuário----------
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -63,10 +66,10 @@ async def ai_explanation(req: TextRequest):
 # -----------------------------------------------------
 
 
-@app.get("/history-view")
-async def history_view():
-    response = check_history()
-    return response
+#@app.get("/history-view")
+#async def history_view():
+    #response = check_history() não funciona mais (lembrar de corrigir depois - função check_history não existe mais)
+    #return response
 
 
 # Monta os arquivos da pasta 'static' 

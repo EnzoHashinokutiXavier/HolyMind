@@ -7,8 +7,7 @@ from fastapi.responses import JSONResponse
 from fastapi import APIRouter, HTTPException, Request, Response, status
 from pydantic import BaseModel
 import bcrypt
-
-from auth import get_db_connection
+from .auth import get_db_connection  
 
 def chat_register(user_id, question_count, question, answer, question_date):
     conn = get_db_connection() 

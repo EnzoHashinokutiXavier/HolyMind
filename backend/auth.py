@@ -4,7 +4,7 @@ import sqlite3
 from jose import jwt, JWTError
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
-from fastapi import APIRouter, HTTPException, Request, Response, status
+from fastapi import APIRouter, HTTPException, Request, Response, status, Depends
 from pydantic import BaseModel
 import bcrypt
 
@@ -25,7 +25,13 @@ def get_db_connection():
     return conn
 
 def gerarToken(username: str, response: Response):
-    payload = {"sub": username, "exp": datetime.now(timezone.utc) + timedelta(hours=1)}
+
+    if (username == "admin"):
+        role = "admin"
+    else:
+        role = "user"
+
+    payload = {"sub": username, "role": role,"exp": datetime.now(timezone.utc) + timedelta(hours=1)}
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
     response.set_cookie(
@@ -65,6 +71,11 @@ def calcularIdade(data_str: str) -> int:
         idade -= 1
 
     return idade
+
+def admin_required(user: dict = Depends(verificarToken)):
+        if user.get("role") != "admin":
+            raise HTTPException(status_code=403, detail="Acesso restrito a administradores")
+        return user
 
 
 # ------- Modelo Pydantic-------

@@ -1,48 +1,28 @@
+from datetime import datetime, timedelta, timezone, date
+import os
 import sqlite3
+from jose import jwt, JWTError
+from dotenv import load_dotenv
+from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException, Request, Response, status
+from pydantic import BaseModel
+import bcrypt
 
-def register_user(username, password, age):
-    try:
-        conn = sqlite3.connect('backend/database/holymind.db')
-        cursor = conn.cursor()
-        cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL,
-            age INTEGER NOT NULL,
-            denomination TEXT DEFAULT 'no',
-            knowledge_level TEXT DEFAULT 'low'
-        );
-                       
-        CREATE TABLE IF NOT EXISTS preferences (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            response_level TEXT DEFAULT 'simple',
-            teachings_example BOOLEAN DEFAULT 0,
-            comparison_to_original_writings BOOLEAN DEFAULT 0,
-            various_interpretations BOOLEAN DEFAULT 0,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-        );
-        ''')
-        #inserir usuário
-        cursor.execute('''INSERT INTO users (username, password, age) 
-                       VALUES (?, ?, ?)
-                       ''', (username, password, age))
-        
-        #pegar id
-        user_id = cursor.lastrowid
-        #inserir
-        cursor.execute('''
-        INSERT INTO preferences(user_id)
-        VALUES (?)     
-        ''', (user_id,))
+from auth import get_db_connection
 
+def chat_register(user_id, question_count, question, answer, question_date):
+    conn = get_db_connection() 
+    cursor = conn.cursor() 
+
+    try: 
+        cursor.execute("INSERT INTO history(user_id, question_count, question, answer, date) VALUES (?)"
+                       , (user_id, question_count, question, answer, question_date))
         conn.commit()
-    except Exception as e:
-        print(f"Erro ao registrar usuário: {e}")  # Log no console do servidor
+        return {"message": f"Pergunta registrada com sucesso!"}
+    except sqlite3.IntegrityError: 
+        raise HTTPException(status_code=400, detail="Erro") 
+    
     finally:
-        if 'conn' in locals():
-            conn.close()
+        conn.close() 
 
-register_user('Enzo', '123', 18)
 

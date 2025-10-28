@@ -28,6 +28,17 @@ def create_tables():
         );
     ''')
 
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            question_count INTEGER NOT NULL,
+            question TEXT NOT NULL,
+            answer TEXT NOT NULL,
+            date TEXT NOT NULL       
+        );
+    ''')
+
     conn.commit()
     conn.close()
     print("INFO:    ✅ Banco de dados inicializado com sucesso.")

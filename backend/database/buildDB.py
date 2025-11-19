@@ -13,6 +13,7 @@ def create_tables():
             age INTEGER NOT NULL,
             denomination TEXT DEFAULT 'no',
             knowledge_level TEXT DEFAULT 'low'
+            setup TEXT NOT NULL DEFAULT 'no'
         );
     ''')
 

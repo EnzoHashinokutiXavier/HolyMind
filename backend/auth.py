@@ -94,8 +94,8 @@ class UserLogin(BaseModel):
 
 @router.post("/register") 
 def register(user: UserRegister): 
-    conn = get_db_connection() 
-    cursor = conn.cursor() 
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     age = calcularIdade(user.birthDate)
 
@@ -152,10 +152,28 @@ def login(user: UserLogin, response: Response):
 @router.get("/status")
 def get_login_status(request: Request):
     try:
-        verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
-        return {"logado": True}
+        payload = verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
+        username = payload.get("username")
+
+        conn = sqlite3.connect("backend/database/holymind.db")
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT setup FROM users WHERE username = ?", (username,))
+        row = cursor.fetchone()
+
+        conn.close()
+
+        setup_status = row[0] if row else "no"
+
+        return {
+            "logado": True,
+            "setup": setup_status
+        }
     except HTTPException:
-        return {"logado": False}
+        return {
+            "logado": False,
+            "setup": "no"
+        }
     
 
 @router.post("/logout")

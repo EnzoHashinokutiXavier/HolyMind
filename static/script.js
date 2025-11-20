@@ -15,16 +15,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     // -----------------------------------------------------------------
     // 2. Funções de Autenticação
     // -----------------------------------------------------------------
-    async function isUserLoggedIn() {
-        try {
-            const resp = await fetch('/auth/status');
-            const data = await resp.json();
-            return data.logado; 
-        } catch (e) {
-            console.error("Erro ao checar status de login: ", e);
-            return false;
-        }
+    async function getAuthStatus() {
+    try {
+        const resp = await fetch('/auth/status', {
+            method: "GET",
+            credentials: "include" // VERY IMPORTANT para enviar cookie HttpOnly
+        });
+        const data = await resp.json(); // { logado: true/false, setup: "no"/"yes" }
+        return data;
+    } catch (e) {
+        console.error("Erro ao checar status auth:", e);
+        return { logado: false, setup: "no" };
     }
+}
     
     async function handleLogout() {
         try {
@@ -52,7 +55,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         const accountDiv = document.querySelector('.account');
         if (!accountDiv) return;
 
-        if (await isUserLoggedIn()) {
+        const status = await getAuthStatus();
+
+        if (status.logado) {
             
             accountDiv.innerHTML = ''; 
 
@@ -75,6 +80,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                 apresentationH1.textContent = "Bem-vindo de volta! 👋";
             }
             
+            if (status.setup === "no" || status.setup === "false" || status.setup === false) {
+                
+            }
+
         }
     }
 

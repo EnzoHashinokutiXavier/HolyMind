@@ -72,7 +72,7 @@ async function sendRequest(endpoint, body, resposta) {
         });
 
         const data = await resp.json();
-
+        
         if (resp.ok) {
             if (endpoint === 'login') {
                 resposta.style.color = "green";
@@ -81,7 +81,7 @@ async function sendRequest(endpoint, body, resposta) {
                 setTimeout(window.location.href = '/', 1000000);
                 return;
             }
-
+            
             resposta.style.color = "green";
             resposta.innerText = "Operação realizada com sucesso!";
             

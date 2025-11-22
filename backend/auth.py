@@ -90,6 +90,12 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
+class SetupResponse(BaseModel):
+    denominationValue: str
+    levelValue: str
+    modeSetup: int
+    
+
 # ------ ROTAS -----------------
 
 @router.post("/register") 
@@ -153,7 +159,7 @@ def login(user: UserLogin, response: Response):
 def get_login_status(request: Request):
     try:
         payload = verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
-        username = payload.get("username")
+        username = payload.get("sub")
 
         conn = sqlite3.connect("backend/database/holymind.db")
         cursor = conn.cursor()
@@ -190,3 +196,61 @@ def logout():
         path="/"
     )
     return response
+
+@router.post("/save-setup")
+def saveSetup(userdata: SetupResponse, request: Request):
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        payload = verificarToken(request)
+
+        username = payload.get('sub')
+        
+        modoSetup = None 
+        
+        if userdata.modeSetup == 0 and userdata.denominationValue == 'none' and userdata.levelValue == 'none':
+            modoSetup = 'skip'
+        elif userdata.modeSetup == 1:
+            modoSetup = 'yes'
+        
+        if modoSetup is None: 
+            raise HTTPException(status_code=400, detail="Entrada Inválida para o tipo de configuração.")
+
+        
+        if modoSetup == 'skip':
+            cursor.execute("UPDATE users SET setup = ? WHERE username = ?", (modoSetup, username))
+        
+        elif modoSetup == 'yes':
+            cursor.execute("UPDATE users SET setup = ?, denomination = ?, knowledge_level = ? WHERE username = ?", (modoSetup, userdata.denominationValue, userdata.levelValue, username))
+
+        conn.commit()
+        
+    except HTTPException as e:
+        raise e
+        
+    except Exception as e:
+        conn.rollback() 
+        raise HTTPException(status_code=500, detail=f"Erro interno do servidor: {str(e)}")
+    finally:
+        if conn:
+            conn.close()
+            
+    return {"message": "Configuração salva com sucesso!", "mode": modoSetup}
+
+
+
+    
+        
+
+
+    
+
+
+
+
+
+            
+
+    

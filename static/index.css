@@ -18,6 +18,29 @@ html, body {
     flex-direction: column;
 }
 
+/* Largura da barra */
+::-webkit-scrollbar {
+    width: 100px;
+}
+
+/* Fundo da barra */
+::-webkit-scrollbar-track {
+    background: #1A2333;
+    border-radius: 10px;
+}
+
+/* Parte arrastável */
+::-webkit-scrollbar-thumb {
+    background: #4e5d78;
+    border-radius: 10px;
+    border: 2px solid #1A2333; /* borda pra deixar thumb mais fina */
+}
+
+/* Thumb quando passa o mouse */
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7a99;
+}
+
 /* ===== NAV ===== */
 nav {
     position: relative;

@@ -30,18 +30,35 @@
     </nav>
     <div class="content">
         <aside class="history">
-            <header><p>Conversas Recentes</p></header>
+            <div class="header-history">
+                <p>Conversas Recentes</p>
+                <button><img class="imgback" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAaElEQVR4nO2USwqAMAxE68LT+qkLD2IP28wUwRERRA+QgtC3zOINhGRCaDSqIqljzguA0UVezFIBRLNdUu8lPwBMbnKS8z/kFzRb3eRVAnSvaHuFxF+HJJczrfJon6ogI4DhGTYawZsTooG8DaPHJDIAAAAASUVORK5CYII=" alt="back--v1"></button>
+            </div>
             <div class="conversas"></div>
         </aside>
         <main class="container">
-            <div class="chat">
-                
+            <div class="header">
+                <div class="add-box">
+                   <button class="add">+</button>
+                   <div class="text">Criar conversa</div>
+                </div>
+                <p>Holymind Chat
+                <div class="settings-box">
+                    <button class="settings"><div class="icons8-settings"></button>
+                    <div class="text-settings">Configurações</div>
+                </div>
             </div>
+
+            <div class="startchat">Ola! Deseja perguntar algo?</div>
+            
+            
             <div class="footerchat">
                 <input class="msginput" type=text placeholder="Pergunte alguma coisa"></input>
             </div>
         </main>
     </div>
+    
+    
     <script src="/static/chat/chat.js"></script>
 </body>
 </html>

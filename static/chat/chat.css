@@ -1,0 +1,533 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kavoon', cursive; 
+}
+
+
+
+html, body {
+    background: #1A2333;
+    color: #fff;
+    min-height: 100vh; 
+    display: flex; 
+    flex-direction: column;
+}
+
+/* ===== NAV ===== */
+nav {
+    position: relative;
+    background: #1f2a3b;
+    padding: 18px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 12px;
+    height: 70px;
+    z-index: 50;
+}
+
+.brand {
+    position: absolute;
+    left: 6%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.brand img { width: 45px; height: 45px; }
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.account {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    right: 6%;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    justify-content: center;
+}
+
+.links {
+    display: flex;
+    gap: 36px;
+}
+
+.links a {
+    color: #fff;
+    text-decoration: none;
+    transition: transform .18s ease, color .18s ease;
+}
+
+.links a:hover { transform: translateY(-3px); color: #00bfff; }
+
+.account button {
+    background: #1f2a3b;
+    color: #fff;
+    border: 1px solid #00bfff;
+    padding: 8px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.account button:hover {
+    background: #2c4b7a;
+    transform: scale(1.1);
+}
+
+/* ===== APRESENTATION ===== */
+.apresentation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.apresentation h1 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+}
+
+.apresentation p {
+    color: #c0c0c0;
+    margin: 20px 0 40px;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 30%; 
+    max-width: 450px; 
+}
+
+.input-container input {
+    width: min(90%, 450px);
+    height: 48px;
+    border-radius: 50px;
+    border: none;
+    background: #1f2a3b;
+    color: #fff;
+    padding: 0 16px;
+    font-size: 16px;
+}
+
+.input-container button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #1f2a3b;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-container button:hover {
+    background: #354763;
+    transform: scale(1.1);
+}
+
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #1A2333;
+    color: #fff;
+    padding: 40px 6%;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.footer-logo {
+    width: 50px;
+    height: auto;
+}
+
+.footer-contact p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 900px) {
+    nav {
+        justify-content: space-between;
+        padding: 12px 4%;
+    }
+
+    .brand, .account {
+        position: static;
+    }
+
+    .menu-toggle { display: block; }
+
+    .nav-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        margin: 0;
+        display: none;             
+        flex-direction: column;
+        gap: 14px;
+        background: #182331;
+        padding: 16px 6%;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        z-index: 49;
+        transform-origin: top center;
+    }
+
+    .nav-menu.open {
+        display: flex;
+        animation: navSlideDown .22s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .links {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .links a {
+        padding: 10px 6px;
+        width: 100%;
+        display: inline-block;
+        border-radius: 8px;
+    }
+
+    .account {
+        width: 100%;
+        gap: 10px;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .account .signin {
+        width: auto;
+        padding: 8px 14px;
+    }
+
+    .input-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 300px; 
+    }
+}
+
+@media (max-width: 420px) {
+    .links a { font-size: 0.95rem; }
+    .brand h2 { font-size: 1rem; }
+}
+
+@keyframes navSlideDown {
+    0% { opacity: 0; transform: translateY(-8px) scaleY(.98); }
+    100% { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+
+/* ===== SETUP CARD ===== */
+
+:root {
+    --bg-site: #1A2333;
+    --bg-card: rgb(44, 51, 104); /*cor de fundo do card */
+    --border-box: #656565; /*  cor para caixas de texto/bordas */
+    --text-white: #FFFFFF; /*  cor para textos e títulos */
+    --accent-color: #F2C94C; /* O Dourado sugerido para destaque */
+    --text-dark: #1A2333; /* Para texto sobre o dourado */
+    --text-subtitle-light: #B0B0B0; /* Cinza suave para subtítulos */
+    --text-link-subtle: #999; /* Cinza para o link de pular */
+}
+
+
+.setup {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    opacity: 0; 
+    justify-content: center;
+    visibility: hidden;
+    
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6); 
+    backdrop-filter: blur(5px); /* Efeito de blur no fundo */
+    transition: opacity 0.4s ease-out, visibility 0s 0.4s;
+}
+
+.setup.active {
+    opacity: 1;    
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.setup-card {
+    background-color: var(--bg-card); /* Usando a variável */
+    display: flex;
+    flex-direction: column; /* Conteúdo um abaixo do outro */
+    
+    padding: 32px 24px; 
+    width: 90%; 
+    max-width: 450px; 
+    
+    border-radius: 35px; 
+    
+    
+    opacity: 1; 
+    
+    gap: 24px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+
+    /* 3. ESTADO INICIAL (DESLOCADO) */
+    transform: translateY(50px); /* Começa 50px abaixo */
+    /* Transição para o movimento do card, usando uma curva "springy" */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.setup.active .setup-card {
+    transform: translateY(0); /* Termina na posição central */
+}
+
+/* Estilos dos elementos internos do Card */
+.setup-card h2 {
+    font-family: 'Kavoon', cursive; 
+    color: var(--text-white);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.setup-card p.subtitle {
+    font-family: sans-serif; 
+    color: var(--text-subtitle-light);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.setup-card label {
+    font-family: sans-serif; 
+    color: var(--text-white);
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 14px;
+}
+
+/* Chips de Denominação */
+.chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chip {
+    font-family: sans-serif; 
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--border-box);
+    border-radius: 50px;
+    color: var(--text-white);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.chip:hover {
+    border-color: var(--accent-color);
+}
+
+.chip.selected {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* Nível de Conhecimento */
+.level-container {
+    display: flex;
+    gap: 10px;
+}
+.level-btn {
+    font-family: sans-serif; 
+    flex: 1;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--border-box);
+    border-radius: 12px;
+    color: var(--text-white);
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+.level-btn:hover {
+    border-color: var(--accent-color);
+}
+.level-btn.selected {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* Botões de Ação */
+.actions {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.btn-primary {
+    font-family: 'Kavoon', cursive; 
+    background-color: var(--accent-color);
+    color: var(--text-dark);
+    border: none;
+    padding: 17px;
+    border-radius: 16px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+.btn-primary:hover {
+    background-color: #fce09d;
+}
+
+.btn-link {
+    font-family: sans-serif;
+    background: none;
+    border: none;
+    color: var(--text-link-subtle);
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+    align-self: center;
+    transition: color 0.2s ease;
+}
+.btn-link:hover {
+    color: var(--accent-color);
+}
+
+
+
+/* ===== RESPONSIVIDADE ESPECÍFICA DO CARD ===== */
+@media (max-width: 500px) {
+    .setup-card {
+        padding: 24px 18px; 
+    }
+    .setup-card h2 {
+        font-size: 20px;
+    }
+    .setup-card p.subtitle {
+        font-size: 13px;
+    }
+    .chip, .level-btn, .btn-primary, .btn-link {
+        font-size: 13px;
+        padding: 9px 14px;
+    }
+    .btn-primary {
+        padding: 15px;
+    }
+}
+
+.content {
+    display: flex;
+    margin-right: 100px;
+    margin-top: 50px;
+    gap: 20px;
+}
+
+.history {
+    width: 20%;
+    height: 730px;
+    border-radius: 0px 30px 30px 0px;
+    background-color: #21304B;
+}
+
+.history header {
+    height: 70px;
+    padding: 20px;
+}
+
+.conversas {
+    width: 100%;
+    height: 84%;
+    justify-items: center;
+}
+
+.history p {
+    font-size: 25px;
+    text-align: center;
+}
+
+.container {
+    width: 80%;
+    height: 730px;
+    border-radius: 50px;
+    padding: 25px
+}
+
+.chat {
+    width: 100%;
+    height: 96%;
+}
+
+.footerchat {
+    display: flex;
+    padding-top: 10px;
+    justify-content: center;
+    width: 100%;
+
+}
+
+input {
+    border-radius: 25px;
+    padding-left: 25px;
+    border: none;
+    background-color: #2d4167;
+    width: 60%;
+    height: 45px;
+    color: white;
+    outline: none;
+}

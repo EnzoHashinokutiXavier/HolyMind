@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holymind Chat</title>
+    <link rel="stylesheet" href="/static/chat/chat.css">
+</head>
+<body>
+    <nav>
+        <div class="brand">
+            <img src="/static/img/logoholymind.png" alt="Logo">
+            <h2>HolyMind</h2>
+        </div>
+        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <div class="nav-menu">
+            <div class="links">
+                <a href="/static/index.html">Home</a>
+                <a href="/static/index.html">Chat</a>
+                <a href="index.html">Explanations</a>
+                <a href="index.html">Search</a>
+                <a href="index.html">Study</a>
+                <a href="index.html">Library</a>
+            </div>
+            
+            <div class="account">
+                <button onclick="window.location.href='/static/auth/index.html';" class="signin">Sign In</button>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <aside class="history">
+            <header><p>Conversas Recentes</p></header>
+            <div class="conversas"></div>
+        </aside>
+        <main class="container">
+            <div class="chat">
+                
+            </div>
+            <div class="footerchat">
+                <input class="msginput" type=text placeholder="Pergunte alguma coisa"></input>
+            </div>
+        </main>
+    </div>
+    <script src="/static/chat/chat.js"></script>
+</body>
+</html>

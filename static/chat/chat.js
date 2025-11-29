@@ -308,3 +308,23 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 });
 
+function historyUI(state) {
+    const buttonOpenHistory = document.querySelector("#open-history")
+    const historyDiv = document.querySelector("#history")
+    const conversasDiv = document.querySelector("#conversas-history")
+    const headerHistory = document.querySelector("#header-history")
+
+    if (state == true) {
+        historyDiv.classList.remove("close")
+        buttonOpenHistory.classList.toggle("visible")
+        conversasDiv.classList.toggle("visible")
+        headerHistory.classList.toggle("visible")
+    } else {
+        historyDiv.classList.add("close")
+        buttonOpenHistory.classList.toggle("visible")
+        conversasDiv.classList.toggle("visible")
+        headerHistory.classList.toggle("visible")
+    }
+}
+
+

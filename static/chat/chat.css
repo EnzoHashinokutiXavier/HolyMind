@@ -14,6 +14,7 @@ html, body {
     background: #1A2333;
     color: #fff;
     min-height: 100vh; 
+    height: 100%;
     display: flex; 
     flex-direction: column;
 }
@@ -497,14 +498,17 @@ nav {
 
 .content {
     display: flex;
+    flex: 1; /* Permite que o .content ocupe o espaço restante na vertical */
     margin-right: 100px;
     margin-top: 50px;
-    gap: 20px;
+    gap: auto;
+    padding-bottom: 20px;
+    max-height: 100%;
 }
 
 .history {
-    width: 20%;
-    height: 730px;
+    width: 350px;
+    max-height: 700px;
     border-radius: 0px 30px 30px 0px;
     background-color: #21304B;
 }
@@ -568,23 +572,31 @@ nav {
 }
 
 .container {
+    position: relative; /* OK! Mantém o elemento pai para 'absolute' */
+    flex-grow: 1; /* Adicionar isso garante que o container ocupe toda a altura dentro de .content */
     width: 100%;
-    height: 730px;
+    height: 100%;
     border-radius: 50px;
     padding-left: 25px;
-    padding-right: 25px
+    padding-right: 25px;
+    display: flex;
+    flex-direction: column; 
+    padding-bottom: 70px;
 }
 
 .chat {
     width: 100%;
-    height: 96%;
+    flex: 1;
+    overflow-y: hidden;
+    margin-top: 20px;
+    margin-bottom: 10px;
     padding-left: 60px;
     padding-right: 50px;
 
 }
 
 .startchat {
-    margin-top: 20%;
+    margin-top: 200px;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -593,23 +605,62 @@ nav {
 }
 
 
-.footerchat {
-    display: flex;
-    padding-top: 10px;
-    justify-content: center;
-    width: 100%;
+.footerchat p {
+    font-size: 12px;
+    text-align: center;
+    color: #bbbbbb;
 }
 
-input {
+.footerchat h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #bbbbbb;
+}
+
+
+
+
+.footerchat.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: calc(100% - 100px);
+    bottom: auto;
+}
+
+.footerchat {
+    position: fixed;
+    
+    left: 50%;
+    transform: translateX(-38%);
+    width: 800px;
+    z-index: 100;
+    bottom: 25px;
+}
+
+
+
+.msginput {
     border-radius: 25px;
     padding-left: 25px;
     border: none;
     background-color: #2d4167;
-    width: 600px;
-    height: 45px;
+    width: 100%;
+    height: 40px;
     color: white;
     outline: none;
+    min-height: 40px;
+    max-height: 200px;     /* limite pra não ficar gigante */
+    resize: none;          /* o usuário não arrasta */
+    overflow-y: auto;      /* evita barra de scroll */
+    padding: 10px;
+    line-height: 20px;
+    margin-bottom: 10px;
 }
+
 
 /* ============= Chat =========== */
 
@@ -678,14 +729,14 @@ input {
 
 .text-settings {
     position: absolute;
-    right: 175px;
+    right: 85px;
     opacity: 0;
     
 }
 
 .text {
     position: absolute;
-    left: 455px;
+    left: 80px;
     opacity: 0;
 }
 
@@ -724,9 +775,23 @@ input {
     overflow-y: auto;
     margin-bottom: 10px;
     overflow-x: hidden;
-    height: 600px;
-    max-height: 600px;
+    height: auto;
+    max-height: auto;
 
+}
+
+.chatcontent {
+    
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    justify-self: center;
+    overflow-y: auto;
+    height: 100%;
+    max-height: auto;
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
 }
 
 .box-message-user {

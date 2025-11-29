@@ -4,7 +4,7 @@ import sqlite3
 from jose import jwt, JWTError
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
-from fastapi import APIRouter, HTTPException, Request, Response, status
+from fastapi import APIRouter, HTTPException, Request, Response, status, Depends
 from pydantic import BaseModel
 import bcrypt
 
@@ -25,7 +25,13 @@ def get_db_connection():
     return conn
 
 def gerarToken(username: str, response: Response):
-    payload = {"sub": username, "exp": datetime.now(timezone.utc) + timedelta(hours=1)}
+
+    if (username == "admin"):
+        role = "admin"
+    else:
+        role = "user"
+
+    payload = {"sub": username, "role": role,"exp": datetime.now(timezone.utc) + timedelta(hours=1)}
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
     response.set_cookie(
@@ -66,6 +72,11 @@ def calcularIdade(data_str: str) -> int:
 
     return idade
 
+def admin_required(user: dict = Depends(verificarToken)):
+        if user.get("role") != "admin":
+            raise HTTPException(status_code=403, detail="Acesso restrito a administradores")
+        return user
+
 
 # ------- Modelo Pydantic-------
 
@@ -79,12 +90,18 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
+class SetupResponse(BaseModel):
+    denominationValue: str
+    levelValue: str
+    modeSetup: int
+    
+
 # ------ ROTAS -----------------
 
 @router.post("/register") 
 def register(user: UserRegister): 
-    conn = get_db_connection() 
-    cursor = conn.cursor() 
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     age = calcularIdade(user.birthDate)
 
@@ -141,10 +158,28 @@ def login(user: UserLogin, response: Response):
 @router.get("/status")
 def get_login_status(request: Request):
     try:
-        verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
-        return {"logado": True}
+        payload = verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
+        username = payload.get("sub")
+
+        conn = sqlite3.connect("backend/database/holymind.db")
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT setup FROM users WHERE username = ?", (username,))
+        row = cursor.fetchone()
+
+        conn.close()
+
+        setup_status = row[0] if row else "no"
+
+        return {
+            "logado": True,
+            "setup": setup_status
+        }
     except HTTPException:
-        return {"logado": False}
+        return {
+            "logado": False,
+            "setup": "no"
+        }
     
 
 @router.post("/logout")
@@ -161,3 +196,61 @@ def logout():
         path="/"
     )
     return response
+
+@router.post("/save-setup")
+def saveSetup(userdata: SetupResponse, request: Request):
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        payload = verificarToken(request)
+
+        username = payload.get('sub')
+        
+        modoSetup = None 
+        
+        if userdata.modeSetup == 0 and userdata.denominationValue == 'none' and userdata.levelValue == 'none':
+            modoSetup = 'skip'
+        elif userdata.modeSetup == 1:
+            modoSetup = 'yes'
+        
+        if modoSetup is None: 
+            raise HTTPException(status_code=400, detail="Entrada Inválida para o tipo de configuração.")
+
+        
+        if modoSetup == 'skip':
+            cursor.execute("UPDATE users SET setup = ? WHERE username = ?", (modoSetup, username))
+        
+        elif modoSetup == 'yes':
+            cursor.execute("UPDATE users SET setup = ?, denomination = ?, knowledge_level = ? WHERE username = ?", (modoSetup, userdata.denominationValue, userdata.levelValue, username))
+
+        conn.commit()
+        
+    except HTTPException as e:
+        raise e
+        
+    except Exception as e:
+        conn.rollback() 
+        raise HTTPException(status_code=500, detail=f"Erro interno do servidor: {str(e)}")
+    finally:
+        if conn:
+            conn.close()
+            
+    return {"message": "Configuração salva com sucesso!", "mode": modoSetup}
+
+
+
+    
+        
+
+
+    
+
+
+
+
+
+            
+
+    

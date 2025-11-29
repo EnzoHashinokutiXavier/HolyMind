@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holymind Chat</title>
+    <link rel="stylesheet" href="/static/chat/chat.css">
+</head>
+<body>
+    <nav>
+        <div class="brand">
+            <img src="/static/img/logoholymind.png" alt="Logo">
+            <h2>HolyMind</h2>
+        </div>
+        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <div class="nav-menu">
+            <div class="links">
+                <a href="/static/index.html">Home</a>
+                <a href="/static/index.html">Chat</a>
+                <a href="index.html">Explanations</a>
+                <a href="index.html">Search</a>
+                <a href="index.html">Study</a>
+                <a href="index.html">Library</a>
+            </div>
+            
+            <div class="account">
+                <button onclick="window.location.href='/static/auth/index.html';" class="signin">Sign In</button>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <aside class="history">
+            <div class="header-history">
+                <p>Conversas Recentes</p>
+                <button><img class="imgback" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAaElEQVR4nO2USwqAMAxE68LT+qkLD2IP28wUwRERRA+QgtC3zOINhGRCaDSqIqljzguA0UVezFIBRLNdUu8lPwBMbnKS8z/kFzRb3eRVAnSvaHuFxF+HJJczrfJon6ogI4DhGTYawZsTooG8DaPHJDIAAAAASUVORK5CYII=" alt="back--v1"></button>
+            </div>
+            <div class="conversas"></div>
+        </aside>
+        <main class="container">
+            <div class="header ">
+                <div class="add-box">
+                   <button class="add">+</button>
+                   <div class="text">Criar conversa</div>
+                </div>
+                <p>Holymind Chat
+                <div class="settings-box">
+                    <button class="settings"><div class="icons8-settings"></button>
+                    <div class="text-settings">Configurações</div>
+                </div>
+            </div>
+            <div class="chat">
+                <div class="chatcontent">
+
+
+                </div>
+            </div>
+            <div class="footerchat centered">
+                <h1>Ola! Deseja perguntar algo?</h1>
+                <textarea id="auto" class="msginput" type=text placeholder="Pergunte alguma coisa"></textarea>
+                <p>Holymind chat não é o dono da verdade e jamais sera.</p>
+            </div>
+        </main>
+    </div>
+    
+    
+    <script src="/static/chat/chat.js"></script>
+</body>
+</html>

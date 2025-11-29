@@ -14,18 +14,20 @@ html, body {
     background: #1A2333;
     color: #fff;
     min-height: 100vh; 
+    height: 100%;
     display: flex; 
     flex-direction: column;
 }
 
 /* Largura da barra */
 ::-webkit-scrollbar {
-    width: 100px;
+    width: 10px;
+    visibility: hidden;
 }
 
 /* Fundo da barra */
 ::-webkit-scrollbar-track {
-    background: #1A2333;
+    visibility: hidden;
     border-radius: 10px;
 }
 
@@ -33,12 +35,14 @@ html, body {
 ::-webkit-scrollbar-thumb {
     background: #4e5d78;
     border-radius: 10px;
-    border: 2px solid #1A2333; /* borda pra deixar thumb mais fina */
+    border: 2px solid #1A2333;
+    visibility: hidden; /* borda pra deixar thumb mais fina */
 }
 
 /* Thumb quando passa o mouse */
 ::-webkit-scrollbar-thumb:hover {
     background: #6b7a99;
+    visibility: hidden;
 }
 
 /* ===== NAV ===== */
@@ -173,48 +177,6 @@ nav {
     transform: scale(1.1);
 }
 
-/* ===== FUNÇÕES ===== */
-.container {
-    background: #2d394e;
-    padding: 60px 6%;
-    text-align: center;
-}
-
-.funcs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
-}
-
-.func {
-    background: #1d2737;
-    border-radius: 25px;
-    padding: 25px;
-    max-width: 340px;
-    flex: 1 1 280px;
-    transition: 0.3s;
-}
-
-.func:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-}
-
-.func img {
-    width: 120px;
-    height: auto;
-    margin-bottom: 15px;
-}
-
-.func h3 {
-    margin-bottom: 10px;
-}
-
-.func p {
-    font-size: 0.95rem;
-    color: #cfcfcf;
-}
 
 /* ===== FOOTER ===== */
 .footer {
@@ -533,3 +495,355 @@ nav {
         padding: 15px;
     }
 }
+
+.content {
+    display: flex;
+    flex: 1; /* Permite que o .content ocupe o espaço restante na vertical */
+    margin-right: 100px;
+    margin-top: 50px;
+    gap: auto;
+    padding-bottom: 20px;
+    max-height: 100%;
+}
+
+.history {
+    width: 350px;
+    max-height: 700px;
+    border-radius: 0px 30px 30px 0px;
+    background-color: #21304B;
+}
+
+
+.header-history {
+    display: flex;
+    padding: 20px;
+    padding-left: 20px;
+    gap: 25px;
+    justify-content: space-between;
+}
+
+.header-history p {
+    text-align: center;
+    align-self: center;
+}
+
+.header-history button {
+    display: flex;
+    justify-items: end;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    border: none;
+    background-color: #21304B;
+    color: #e3e2e2;
+}
+.header-history button:hover{
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    border: none;
+    background-color: #31476f;
+    color: #e3e2e2;
+    cursor: pointer;
+}
+
+.imgback {
+    color: white;
+    padding-left: 3px;
+
+    width: 35px;
+    height: 35px;
+    justify-self: center;
+    align-items: center;
+}
+
+
+
+.conversas {
+    width: 100%;
+    height: 84%;
+    justify-items: center;
+    overflow-y: auto;
+}
+
+.history p {
+    font-size: 20px;
+    text-align: center;
+}
+
+.container {
+    position: relative; /* OK! Mantém o elemento pai para 'absolute' */
+    flex-grow: 1; /* Adicionar isso garante que o container ocupe toda a altura dentro de .content */
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    display: flex;
+    flex-direction: column; 
+    padding-bottom: 70px;
+}
+
+.chat {
+    width: 100%;
+    flex: 1;
+    overflow-y: hidden;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-left: 60px;
+    padding-right: 50px;
+
+}
+
+.startchat {
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+
+}
+
+
+.footerchat p {
+    font-size: 12px;
+    text-align: center;
+    color: #bbbbbb;
+}
+
+.footerchat h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #bbbbbb;
+}
+
+
+
+
+.footerchat.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: calc(100% - 100px);
+    bottom: auto;
+}
+
+.footerchat {
+    position: fixed;
+    
+    left: 50%;
+    transform: translateX(-38%);
+    width: 800px;
+    z-index: 100;
+    bottom: 25px;
+}
+
+
+
+.msginput {
+    border-radius: 25px;
+    padding-left: 25px;
+    border: none;
+    background-color: #2d4167;
+    width: 100%;
+    height: 40px;
+    color: white;
+    outline: none;
+    min-height: 40px;
+    max-height: 200px;     /* limite pra não ficar gigante */
+    resize: none;          /* o usuário não arrasta */
+    overflow-y: auto;      /* evita barra de scroll */
+    padding: 10px;
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+
+
+/* ============= Chat =========== */
+
+.header {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;            /* deixa tudo alinhado verticalmente */
+    justify-content: space-between; /* distribui inicio / meio / fim */
+    background-color: #354763;
+    border-radius: 100px;
+    padding: 0 6px;      
+    visibility: hidden;   
+}
+
+.visible {
+    visibility: visible;
+}
+
+.header button {
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    border: none;
+    outline: none;
+}
+
+.header p {
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    font-weight: 600;
+}
+
+
+.add-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    padding-bottom: 5px;
+    background-color: #4E688B;
+    color: white;
+    cursor: pointer;
+    
+}
+
+.add:hover {
+    background-color: #678bb7;
+    color: white;
+    transition: ease all 0.3s;
+}
+
+.settings-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.text-settings {
+    position: absolute;
+    right: 85px;
+    opacity: 0;
+    
+}
+
+.text {
+    position: absolute;
+    left: 80px;
+    opacity: 0;
+}
+
+.settings:hover + .text-settings {
+    opacity: 1;
+    transition: ease 0.2s all;
+}
+
+.add:hover + .text {
+    opacity: 1;
+    transition: ease 0.2s all;
+}
+
+
+.settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    background-color: #4E688B;
+    color: white;
+    cursor: pointer;
+}
+
+.settings:hover {
+    background-color: #678bb7;
+    color: white;
+    transition: ease all 0.3s;
+}
+
+
+.chat {
+    margin-top: 20px;
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    height: auto;
+    max-height: auto;
+
+}
+
+.chatcontent {
+    
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    justify-self: center;
+    overflow-y: auto;
+    height: 100%;
+    max-height: auto;
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+}
+
+.box-message-user {
+    justify-content: flex-end;
+    margin-bottom: 30px;
+    justify-content: flex-end;
+
+
+}
+
+.box-message-ia {
+    justify-content: flex-start;
+    margin-bottom: 30px;
+    justify-content: flex-start;
+
+}
+
+.box-message-ia, .box-message-user {
+    width: 100%;
+    display: flex;
+}
+
+.message-ia, .message-user {
+    display: inline-block;
+    color: white;
+    margin: 0;
+    font-size: 15px;
+    border-radius: 35px;
+    padding: 15px;
+    max-width: 75%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.message-user {
+    background-color: #818181;
+    text-align: left;
+
+}
+
+.message-ia {
+    background-color: #4a4a4a;
+    text-align: left;
+    padding: 30px;
+}
+
+/* icons */
+
+.icons8-settings { 
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwLDAsMjU2LDI1NiIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgZmlsbC1ydWxlPSJub256ZXJvIj48ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2UtZGFzaGFycmF5PSIiIHN0cm9rZS1kYXNob2Zmc2V0PSIwIiBmb250LWZhbWlseT0ibm9uZSIgZm9udC13ZWlnaHQ9Im5vbmUiIGZvbnQtc2l6ZT0ibm9uZSIgdGV4dC1hbmNob3I9Im5vbmUiIHN0eWxlPSJtaXgtYmxlbmQtbW9kZTogbm9ybWFsIj48ZyB0cmFuc2Zvcm09InNjYWxlKDEwLjY2NjY3LDEwLjY2NjY3KSI+PHBhdGggZD0iTTEwLjQ5MDIzLDJjLTAuNDc5LDAgLTAuODg4NDcsMC4zMzg1OSAtMC45ODA0NywwLjgwODU5bC0wLjMzMzk4LDEuNzE0ODRjLTAuODIwNzYsMC4zMTAzNiAtMS41Nzk2OCwwLjc0Mzk3IC0yLjI0NjA5LDEuMjkxMDJsLTEuNjQ0NTMsLTAuNTY2NDFjLTAuNDUzLC0wLjE1NiAtMC45NTE0MSwwLjAzMTMxIC0xLjE5MTQxLDAuNDQ1MzFsLTEuNTA3ODEsMi42MTMyOGMtMC4yMzksMC40MTUgLTAuMTUyMDIsMC45NDE4NiAwLjIwODk4LDEuMjU1ODZsMS4zMTgzNiwxLjE0NjQ4Yy0wLjA2ODU2LDAuNDIxMzUgLTAuMTEzMjgsMC44NTAzIC0wLjExMzI4LDEuMjkxMDJjMCwwLjQ0MDcyIDAuMDQ0NzIsMC44Njk2NiAwLjExMzI4LDEuMjkxMDJsLTEuMzE4MzYsMS4xNDY0OGMtMC4zNjEsMC4zMTQgLTAuNDQ3OTgsMC44NDA4NiAtMC4yMDg5OCwxLjI1NTg2bDEuNTA3ODEsMi42MTMyOGMwLjIzOSwwLjQxNSAwLjczODQxLDAuNjAyMjcgMS4xOTE0MSwwLjQ0NzI3bDEuNjQ0NTMsLTAuNTY2NDFjMC42NjYyLDAuNTQ2NzEgMS40MjU3MSwwLjk3ODg0IDIuMjQ2MDksMS4yODkwNmwwLjMzMzk4LDEuNzE0ODRjMC4wOTIsMC40NyAwLjUwMTQ3LDAuODA4NTkgMC45ODA0NywwLjgwODU5aDMuMDE5NTNjMC40NzksMCAwLjg4ODQ3LC0wLjMzODU5IDAuOTgwNDcsLTAuODA4NTlsMC4zMzM5OSwtMS43MTQ4NGMwLjgyMDc2LC0wLjMxMDM2IDEuNTc5NjgsLTAuNzQzOTcgMi4yNDYwOSwtMS4yOTEwMmwxLjY0NDUzLDAuNTY2NDFjMC40NTMsMC4xNTYgMC45NTE0MSwtMC4wMzAzMSAxLjE5MTQxLC0wLjQ0NTMxbDEuNTA3ODEsLTIuNjE1MjNjMC4yMzksLTAuNDE1IDAuMTUyMDIsLTAuOTM5OTEgLTAuMjA4OTgsLTEuMjUzOTFsLTEuMzE4MzYsLTEuMTQ2NDhjMC4wNjg1NiwtMC40MjEzNSAwLjExMzI4LC0wLjg1MDMgMC4xMTMyOCwtMS4yOTEwMmMwLC0wLjQ0MDcyIC0wLjA0NDcyLC0wLjg2OTY2IC0wLjExMzI4LC0xLjI5MTAybDEuMzE4MzYsLTEuMTQ2NDhjMC4zNjEsLTAuMzE0IDAuNDQ3OTgsLTAuODQwODYgMC4yMDg5OCwtMS4yNTU4NmwtMS41MDc4MSwtMi42MTMyOGMtMC4yMzksLTAuNDE1IC0wLjczODQxLC0wLjYwMjI3IC0xLjE5MTQxLC0wLjQ0NzI3bC0xLjY0NDUzLDAuNTY2NDFjLTAuNjY2MiwtMC41NDY3MSAtMS40MjU3MSwtMC45Nzg4NCAtMi4yNDYwOSwtMS4yODkwNmwtMC4zMzM5OSwtMS43MTQ4NGMtMC4wOTIsLTAuNDcgLTAuNTAxNDcsLTAuODA4NTkgLTAuOTgwNDcsLTAuODA4NTl6TTEyLDhjMi4yMDksMCA0LDEuNzkxIDQsNGMwLDIuMjA5IC0xLjc5MSw0IC00LDRjLTIuMjA5LDAgLTQsLTEuNzkxIC00LC00YzAsLTIuMjA5IDEuNzkxLC00IDQsLTR6Ij48L3BhdGg+PC9nPjwvZz48L3N2Zz4=') 50% 50% no-repeat;
+    background-size: 100%; }

@@ -20,7 +20,7 @@ html, body {
 
 /* Largura da barra */
 ::-webkit-scrollbar {
-    width: 100px;
+    width: 10px;
 }
 
 /* Fundo da barra */

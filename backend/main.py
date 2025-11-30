@@ -40,7 +40,7 @@ app.include_router(auth_router)
 app.include_router(showdb_router)
 
 # Modelo base da requisição de texto
-class TextRequest(BaseModel):
+class TextRequest(BaseModel):  # Id do usuário e pergunta 
     user_id: int
     text: str
 
@@ -49,13 +49,13 @@ class TextRequest(BaseModel):
 @app.post("/ai-explanation")
 async def ai_explanation(req: TextRequest):
     try:
-        data = load_user_info(req.user_id)
+        data = load_user_info(req.user_id)  # carrega o modelo da ia e o prompt para system
         response = client.chat.completions.create(
-            model = data[0],
+            model = data[0],  # data[0] = modelo
             messages = [
-                {"role": "system", "content": f"{data[1]}"},
+                {"role": "system", "content": f"{data[1]}"},  # data[1] = prompt
 
-                {"role": "user", "content": f"{req.text}"}
+                {"role": "user", "content": f"{req.text}"}    #req.text = pergunta do usuario
             ]
         )
         chat_register() #registrar no historico do usuário----------
@@ -65,11 +65,6 @@ async def ai_explanation(req: TextRequest):
 
 # -----------------------------------------------------
 
-
-#@app.get("/history-view")
-#async def history_view():
-    #response = check_history() não funciona mais (lembrar de corrigir depois - função check_history não existe mais)
-    #return response
 
 
 # Monta os arquivos da pasta 'static' 

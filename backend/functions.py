@@ -58,7 +58,7 @@ def register_user(username, password, age):
 
 # -----------------------------------------------------
 
-# ----------------------------------------------------- Desenvolvendo
+# -------------chat register por usuario---------------------------------------- Desenvolvendo
 
 
 
@@ -66,27 +66,50 @@ def register_user(username, password, age):
 
 # -----------------------------------------------------
 
-def load_prompts(user_info):
-    data = ''
-    with open("backend\\prompts.json", "r", encoding='utf-8') as file:
-        prompts = json.load(file)
-        data += f"{prompts['identity']}\n{prompts['limitations']}\n{prompts['explanation']}\n{prompts['language']}\n{prompts['exception']}\n"
-        data += "You need to respond to the user based on their information and preferences:"
-        data += ""
-        # nivel de conhecimento (superficial, mediano, profundo), idade, denominação
-        # nivel de resposta (simple, deep), resposta com exemplos de aplicações dos ensinamentos (true, false)
-        # comparação com textos originais - hebraico, aramaico, grego (true, false)
-        # exibir interpretações de diversas denominações (true, false)
-    return data
-    
 
+# Seleciona modelo da ia e carrega prompt
 def load_user_info(user_id):
     #abrir database
+    conn = sqlite3.connect('backend/database/holymind.db')
+    cursor = conn.cursor()
     #acessar usuário
-    #recolher : tipo de resposta
+    cursor.execute('SELECT * FROM users WHERE id = ? ', (user_id))
+    usuario = cursor.fetchall() #armazena informações do usuário
+    #acessar preferencia
+    cursor.execute('SELECT * FROM preferences WHERE id = ? ', (user_id))
+    preferencia = cursor.fetchall() #armazena informações do usuário
 
-    response_type = x #tipo de resposta
+    # carregar prompt
+    prompt = ''
+    with open("backend\\prompts.json", "r", encoding='utf-8') as file:
+        # ler prompts gerais pre definidos
+        preset_prompts = json.load(file)
+        prompt += f"{preset_prompts['identity']}\n{preset_prompts['limitations']}\n{preset_prompts['explanation']}\n{preset_prompts['language']}\n{preset_prompts['exception']}\n"
+        # se usuario deu informações de preferencia, personalizar prompt
+        if usuario[0][6] == "yes":
+            # adaptar resposta de acordo com o perfil do usuario
+            prompt += "You must respond to the user in a manner appropriate to their information ("
+            prompt += f"User knowledge level : {usuario[0][5]},  Age : {usuario[0][3]}, Religious denomination : {usuario[0][4]}). \n"
+            # seleção de profundidade de resposta
+            prompt += f"You must respond in {preferencia[0][2]}"
+            # mostrar aplicação pratica dos ensinamentos 
+            if preferencia[0][3] == True:
+                prompt += " and show how to apply the teachings in practice. \n"
+            else:
+                prompt += " and you don't need to show how to apply the teachings in practice. \n"
+            # mostrar comparação com os textos originais da biblia
+            if preferencia[0][4] == True:
+                prompt += "Your explanation should include a comparison with the original texts of the Bible (Greek, Hebrew, or Aramaic).\n"
+            else:
+                prompt += "Your explanation should not include comparisons with the original texts of the Bible (Greek, Hebrew, or Aramaic).\n"
+            # mostrar interpretação de diversas denominações
+            if preferencia[0][5] == True:
+                prompt += "You should explain the point of view of various denominations regarding the topic discussed.\n"
+            else:
+                prompt += "You shouldn't explain the point of view of various denominations regarding the topic discussed.\n"
 
+    # Definir modelo de ia
+    response_type = preferencia[0][2] #tipo de resposta
     if response_type == 'simple':
         model = "gpt-4o-mini"
     elif response_type == 'deep':
@@ -94,9 +117,6 @@ def load_user_info(user_id):
     else:
         model = "gpt-4o-mini"
 
-    info = x #informações
-
-    prompt = load_prompts(info)
-
     data = [model, prompt]
+
     return data

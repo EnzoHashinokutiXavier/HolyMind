@@ -1,12 +1,15 @@
 from datetime import datetime, timedelta, timezone, date
 import os
-import sqlite3
-from jose import jwt, JWTError
-from dotenv import load_dotenv
+import aiosqlite # type: ignore
+from jose import jwt, JWTError  # type: ignore
+from dotenv import load_dotenv # type: ignore
 from fastapi.responses import JSONResponse
+from starlette import status
 from fastapi import APIRouter, HTTPException, Request, Response, status, Depends
 from pydantic import BaseModel
-import bcrypt
+from fastapi.responses import FileResponse, RedirectResponse
+from .database.database import get_db
+import bcrypt # type: ignore
 
 # ----- Configuração Inicial --------
 env_path = "./.env"
@@ -16,15 +19,11 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+AUTH_HTML_PATH = os.path.join(os.path.dirname(__file__), "static", "auth", "index.html")
 
 # ------ Funções auxiliares ------
 
-def get_db_connection():
-    conn = sqlite3.connect("backend/database/holymind.db", timeout = 10)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-def gerarToken(username: str, response: Response):
+async def gerarToken(username: str, response: Response):
 
     if (username == "admin"):
         role = "admin"
@@ -45,7 +44,7 @@ def gerarToken(username: str, response: Response):
     )
     return token
 
-def verificarToken(request: Request):
+async def verificarToken(request: Request):
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(status_code=401, detail="Não Autenticado")
@@ -55,7 +54,7 @@ def verificarToken(request: Request):
     except JWTError:
         raise HTTPException(status_code=401, detail="Token invalido ou expirado!")
     
-def calcularIdade(data_str: str) -> int:
+async def calcularIdade(data_str: str) -> int:
     try:
         data_nascimento = datetime.strptime(data_str, "%Y-%m-%d").date()
     except ValueError:
@@ -98,12 +97,10 @@ class SetupResponse(BaseModel):
 
 # ------ ROTAS -----------------
 
-@router.post("/register") 
-def register(user: UserRegister): 
-    conn = get_db_connection()
-    cursor = conn.cursor()
+@router.post("/register")
+async def register(user: UserRegister, db: aiosqlite.Connection = Depends(get_db)): 
 
-    age = calcularIdade(user.birthDate)
+    age = await calcularIdade(user.birthDate)
 
     if (age < 12):
         raise HTTPException(status_code=400, detail=f"Usuario {user.username} não tem idade minima para se cadastrar")
@@ -116,58 +113,50 @@ def register(user: UserRegister):
     senhahash = bcrypt.hashpw(password_bytes, salt).decode('utf-8')
 
     try: 
-        cursor.execute("INSERT INTO users (username, password, age) VALUES (?, ?, ?)", ( user.username, senhahash, age)) 
+        cursor = await db.execute("INSERT INTO users (username, password, age) VALUES (?, ?, ?)", ( user.username, senhahash, age)) 
         user_id = cursor.lastrowid
-        conn.commit()
+        await db.commit()
 
-        cursor.execute("INSERT INTO preferences(user_id) VALUES (?)", (user_id,))
-        conn.commit()
+        await db.execute("INSERT INTO preferences(user_id) VALUES (?)", (user_id,))
+        await db.commit()
         return {"message": f"Usuário {user.username} registrado com sucesso!"}
-    except sqlite3.IntegrityError: 
-        raise HTTPException(status_code=400, detail="Usuário já existe") 
-    
-    finally:
-        conn.close() 
-
+    except aiosqlite.IntegrityError:
+        raise HTTPException(status_code=400, detail="Usuário já existe")
 
 # @router.post("/login")
 @router.post("/login") 
-def login(user: UserLogin, response: Response):
-    conn = get_db_connection() 
-    cursor = conn.cursor() 
-    cursor.execute("SELECT password FROM users WHERE username = ?", (user.username,)) 
-    row = cursor.fetchone() 
+async def login(user: UserLogin, response: Response, db: aiosqlite.Connection = Depends(get_db)):
+    try:
+        
+        cursor = await db.execute("SELECT password FROM users WHERE username = ?", (user.username,)) 
+        row = await cursor.fetchone()
 
-    if row is None: 
-        raise HTTPException(status_code=401, detail="Credenciais Invalidas") 
-    else: 
-        senhaUSER = row["password"] 
+        if row is None: 
+            raise HTTPException(status_code=401, detail="Credenciais Invalidas") 
+        else: 
+            senhaUSER = row["password"] 
      
     #cursor.execute("SELECT username FROM users WHERE email = ?", (user.email,))
     #rowuser = cursor.fetchone()
     #username = rowuser["username"]
 
-    if bcrypt.checkpw(user.password.encode('utf-8'), senhaUSER.encode('utf-8')):
-        token = gerarToken(user.username, response)
-        return {"message": "Login realizado com sucesso"}
+        if bcrypt.checkpw(user.password.encode('utf-8'), senhaUSER.encode('utf-8')):
+            token = await gerarToken(user.username, response)
+            return {"message": "Login realizado com sucesso"}
 
-    else:
+    except:
         raise HTTPException(status_code=401, detail="Credenciais Invalidas")
 
 
 @router.get("/status")
-def get_login_status(request: Request):
+async def get_login_status(request: Request, db: aiosqlite.Connection = Depends(get_db)):
     try:
-        payload = verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
+        payload = await verificarToken(request) # Tenta verificar o token no cookie (HttpOnly)
         username = payload.get("sub")
 
-        conn = sqlite3.connect("backend/database/holymind.db")
-        cursor = conn.cursor()
 
-        cursor.execute("SELECT setup FROM users WHERE username = ?", (username,))
-        row = cursor.fetchone()
-
-        conn.close()
+        cursor = await db.execute("SELECT setup FROM users WHERE username = ?", (username,))
+        row = await cursor.fetchone()
 
         setup_status = row[0] if row else "no"
 
@@ -183,7 +172,7 @@ def get_login_status(request: Request):
     
 
 @router.post("/logout")
-def logout():
+async def logout():
     response = JSONResponse(
         status_code=status.HTTP_200_OK,
         content={"message": "Logout realizado com sucesso!"}
@@ -198,13 +187,10 @@ def logout():
     return response
 
 @router.post("/save-setup")
-def saveSetup(userdata: SetupResponse, request: Request):
-    
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
+async def saveSetup(userdata: SetupResponse, request: Request, db: aiosqlite.Connection = Depends(get_db)):
+  
     try:
-        payload = verificarToken(request)
+        payload = await verificarToken(request)
 
         username = payload.get('sub')
         
@@ -220,37 +206,20 @@ def saveSetup(userdata: SetupResponse, request: Request):
 
         
         if modoSetup == 'skip':
-            cursor.execute("UPDATE users SET setup = ? WHERE username = ?", (modoSetup, username))
+            await db.execute("UPDATE users SET setup = ? WHERE username = ?", (modoSetup, username))
         
         elif modoSetup == 'yes':
-            cursor.execute("UPDATE users SET setup = ?, denomination = ?, knowledge_level = ? WHERE username = ?", (modoSetup, userdata.denominationValue, userdata.levelValue, username))
+            await db.execute("UPDATE users SET setup = ?, denomination = ?, knowledge_level = ? WHERE username = ?", (modoSetup, userdata.denominationValue, userdata.levelValue, username))
 
-        conn.commit()
+        await db.commit()
         
     except HTTPException as e:
         raise e
         
     except Exception as e:
-        conn.rollback() 
+        await db.rollback() 
         raise HTTPException(status_code=500, detail=f"Erro interno do servidor: {str(e)}")
-    finally:
-        if conn:
-            conn.close()
-            
+    
     return {"message": "Configuração salva com sucesso!", "mode": modoSetup}
 
 
-
-    
-        
-
-
-    
-
-
-
-
-
-            
-
-    

@@ -307,3 +307,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
 });
+
+const signin = document.querySelector(".signin");
+
+// Garante que o botão existe e adiciona o evento
+if (signin) {
+    signin.addEventListener('click', async () => {
+        await redirectToPage("auth");
+    })
+}
+
+async function redirectToPage(page) {
+    const Url = `/${page}`; 
+    window.location.href = Url;
+}

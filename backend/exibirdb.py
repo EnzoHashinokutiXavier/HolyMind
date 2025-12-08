@@ -1,17 +1,16 @@
 from fastapi import HTTPException
-import sqlite3
+import aiosqlite
+from .database.database import get_db
 from fastapi import APIRouter, Depends
 from .auth import admin_required
 
 router = APIRouter(prefix="/admin", tags=["showdb"])
 
 @router.get('/showdb')
-def show_users_with_preferences(user: dict = Depends(admin_required)):
+async def show_users_with_preferences(user: dict = Depends(admin_required), db: aiosqlite.Connection = Depends(get_db)):
     try:
-        conn = sqlite3.connect('backend/database/holymind.db')
-        cursor = conn.cursor()
 
-        cursor.execute('''
+        cursor = await db.execute('''
         SELECT 
             u.id, 
             u.username, 
@@ -26,7 +25,7 @@ def show_users_with_preferences(user: dict = Depends(admin_required)):
         LEFT JOIN preferences p ON u.id = p.user_id
         ''')
 
-        rows = cursor.fetchall()
+        rows = await cursor.fetchall()
 
         if rows:
             print("\n--- Usuários e Preferências ---")
@@ -61,7 +60,4 @@ ID: {row[0]} | Nome: {row[1]} | Idade: {row[2]} | Denominação: {row[3]} | Conh
     except Exception as e:
         print(f"Erro ao exibir usuários: {e}")
         raise HTTPException(status_code=500, detail="Erro inteiro ao acessar o banco de dados")
-    finally:
-        if 'conn' in locals():
-            conn.close()
 

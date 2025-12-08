@@ -1,15 +1,15 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Depends
 from pydantic import BaseModel
 from .auth import router as auth_router
 from fastapi.staticfiles import StaticFiles 
-from fastapi.responses import FileResponse
+from starlette import status
+from fastapi.responses import FileResponse, RedirectResponse
 from .exibirdb import router as showdb_router  # import what you need
 from dotenv import load_dotenv
 from .functions import load_user_info
-from .teste import chat_register
 import os
+from .auth import verificarToken
 from .database.buildDB import create_tables
-import sqlite3
 from contextlib import asynccontextmanager
 from openai import OpenAI
 
@@ -23,15 +23,13 @@ if not api_key:
 # Cria o cliente para usar a API
 client = OpenAI(api_key=api_key)
 
-
 # --- ciclo de vida ---
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("INFO:    🚀 Inicializando servidor...")
-    create_tables()  # executa na inicialização, criando o banco de dados caso nao tenha
+    await create_tables()  # executa na inicialização, criando o banco de dados caso nao tenha
     yield # ISSO DIFERENCIA A INICIALIZAÇÃO DO ENCERRAMENTO DO FASTAPI
     print("INFO:    🛑 Encerrando servidor...")  # executa no shutdown
-
 
 # --- Instância principal do app ---
 app = FastAPI(lifespan=lifespan)
@@ -43,7 +41,6 @@ app.include_router(showdb_router)
 class TextRequest(BaseModel):  # Id do usuário e pergunta 
     user_id: int
     text: str
-
 
 # -Rota-unica------------------------------------------- Desenvolvendo
 @app.post("/ai-explanation")
@@ -58,23 +55,34 @@ async def ai_explanation(req: TextRequest):
                 {"role": "user", "content": f"{req.text}"}    #req.text = pergunta do usuario
             ]
         )
-        chat_register() #registrar no historico do usuário----------
+        ## chat_register() #registrar no historico do usuário ---------- função ainda n existe
         return{"explanation": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 # -----------------------------------------------------
 
-
-
 # Monta os arquivos da pasta 'static' 
 app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "..", "static")), name="static")
 
-
 # Define um GET endpoint na rota de url /
 @app.get("/")
-async def root():
-    # Retorna o arquivo html
+async def main_page(request: Request):
     return FileResponse(os.path.join(os.path.dirname(__file__), "..", "static", "index.html"))
 
+@app.get("/auth") 
+async def auth_page_verify(request: Request):
+    
+    try:
+        # 1. Tenta verificar o token. Se houver, a linha abaixo executa.
+        await verificarToken(request) 
+  
+        # 2. Se o token for válido, redireciona o usuário para a rota principal (/)
+        return RedirectResponse(url="/", status_code=status.HTTP_302_FOUND) 
+        
+    except HTTPException:
+        # 3. Se verificarToken levantar HTTPException (não logado), exibe a página de login.
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        AUTH_HTML_PATH = os.path.join(BASE_DIR, "..", "static", "auth", "index.html")
 
+        return FileResponse(AUTH_HTML_PATH)
